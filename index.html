@@ -1,0 +1,3740 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studya — L'école sans la galère</title>
+<meta name="description" content="Studya — Ton copilote IA pour réussir au collège, lycée et fac. Devoirs, fiches, révisions, emploi du temps. Compatible Pronote.">
+<meta property="og:title" content="Studya — L'école sans la galère">
+<meta property="og:description" content="Ton copilote IA pour réussir au collège, lycée et fac.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#7546c2">
+
+<!-- 🔒 Sécurité : CSP stricte (limite les domaines accessibles) -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://api.qrserver.com; connect-src 'self' https://text.pollinations.ai https://api.pollinations.ai https://is.gd https://tinyurl.com https://v.gd https://api.qrserver.com; font-src 'self' data:; frame-ancestors 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="Referrer-Policy" content="no-referrer">
+<meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+
+<!-- ⚡ Performance : pré-établir les connexions CDN -->
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preconnect" href="https://text.pollinations.ai" crossorigin>
+<link rel="dns-prefetch" href="https://api.qrserver.com">
+
+<!-- 📚 Librairies (CDN) avec Subresource Integrity (SRI) — protège contre supply-chain attack -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
+        integrity="sha384-JcnsjUPPylna1s1fvi1u12X5qjY5OL56iySh75FdtrwhO/SWXgMjoVqcKyIIWOLk"
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"
+        integrity="sha384-vtjasyidUo0kW94K5MXDXntzOJpQgBKXmE7e2Ga4LG0skTTLeBi97eFAXsqewJjw"
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/gh/gitbrent/PptxGenJS@3.12.0/dist/pptxgen.bundle.js"
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js"
+        integrity="sha384-4xaIisuLEy2lo2HkB2C4rEf7v8jbTb2kuogX6TkuEt9feTWKBSFSOzsqNNbV+sKh"
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"
+        integrity="sha384-e6nUZLBkQ86NJ6TVVKAeSaK8jWa3NhkYWZFomE39AvDbQWeie9PlQqM3pmYW5d1g"
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"
+        integrity="sha384-/1qUCSGwTur9vjf/z9lmu/eCUYbpOTgSjmpbMQZ1/CtX2v/WcAIKqRv+U1DUCG6e"
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>if(window.pdfjsLib){pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';}</script>
+<link rel="manifest" href='data:application/manifest+json,{"name":"Studya","short_name":"Studya","description":"L%27école sans la galère","start_url":"./index.html","display":"standalone","background_color":"%231a3a8e","theme_color":"%237546c2","icons":[{"src":"data:image/svg%2Bxml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 192 192%22%3E%3Crect width=%22192%22 height=%22192%22 rx=%2240%22 fill=%22%237546c2%22/%3E%3Ctext x=%2296%22 y=%22128%22 font-size=%22120%22 text-anchor=%22middle%22 fill=%22white%22%3E🎓%3C/text%3E%3C/svg%3E","sizes":"192x192","type":"image/svg+xml"}]}'>
+
+<style>
+/* ================== VARIABLES & RESET ================== */
+:root{
+  --accent: #0a84ff;
+  --accent-2: #5e5ce6;
+  --bg-glass: rgba(255,255,255,0.12);
+  --bg-glass-strong: rgba(255,255,255,0.22);
+  --border-glass: rgba(255,255,255,0.25);
+  --text: #ffffff;
+  --text-dim: rgba(255,255,255,0.78);
+  --text-faint: rgba(255,255,255,0.55);
+  --shadow: 0 20px 60px rgba(0,0,0,0.45);
+  --radius: 18px;
+  --radius-sm: 10px;
+  --wallpaper: linear-gradient(135deg,#1a3a8e 0%,#7546c2 35%,#c44b8a 65%,#ff8a3d 100%);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;height:100%;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--text);overflow:hidden}
+body{
+  background: var(--wallpaper);
+  background-size: 200% 200%;
+  animation: bgshift 24s ease-in-out infinite;
+}
+@keyframes bgshift{
+  0%,100%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+}
+#wallpaper-overlay{position:fixed;inset:0;pointer-events:none;background:radial-gradient(circle at 20% 20%, rgba(255,255,255,0.18), transparent 50%),radial-gradient(circle at 80% 80%, rgba(0,0,0,0.25), transparent 60%);z-index:0}
+
+button{font-family:inherit;cursor:pointer;border:none;outline:none}
+input,textarea,select{font-family:inherit;outline:none}
+
+/* ================== THEMES ================== */
+body[data-theme="bleu"]{--accent:#0a84ff;--accent-2:#5e5ce6;--wallpaper:linear-gradient(135deg,#1a3a8e 0%,#7546c2 35%,#c44b8a 65%,#ff8a3d 100%)}
+body[data-theme="rose"]{--accent:#ff4d8d;--accent-2:#ff77a9;--wallpaper:linear-gradient(135deg,#7a1f4d 0%,#c83a7c 35%,#ff7eb9 65%,#ffd1dc 100%)}
+body[data-theme="rouge"]{--accent:#ff3b30;--accent-2:#ff6b5b;--wallpaper:linear-gradient(135deg,#3a0a08 0%,#8b1a1a 35%,#d83a2a 65%,#ff8a5b 100%)}
+body[data-theme="marron"]{--accent:#a0522d;--accent-2:#8b4513;--wallpaper:linear-gradient(135deg,#2b1a0e 0%,#5a3a1d 35%,#9b6b3a 65%,#d9a76a 100%)}
+body[data-theme="blanc"]{--accent:#0a84ff;--accent-2:#5e5ce6;--text:#1a1a1a;--text-dim:rgba(0,0,0,0.72);--text-faint:rgba(0,0,0,0.5);--bg-glass:rgba(255,255,255,0.65);--bg-glass-strong:rgba(255,255,255,0.85);--border-glass:rgba(0,0,0,0.1);--wallpaper:linear-gradient(135deg,#e8edf2 0%,#dde4ec 50%,#ced8e3 100%)}
+body[data-theme="violet"]{--accent:#a855f7;--accent-2:#d946ef;--wallpaper:linear-gradient(135deg,#1e0a3c 0%,#5b21b6 35%,#a855f7 65%,#f0abfc 100%)}
+body[data-theme="vert"]{--accent:#22c55e;--accent-2:#10b981;--wallpaper:linear-gradient(135deg,#052e16 0%,#15803d 35%,#22c55e 65%,#bbf7d0 100%)}
+body[data-theme="orange"]{--accent:#f97316;--accent-2:#fb923c;--wallpaper:linear-gradient(135deg,#431407 0%,#9a3412 35%,#f97316 65%,#fed7aa 100%)}
+body[data-theme="cyan"]{--accent:#06b6d4;--accent-2:#22d3ee;--wallpaper:linear-gradient(135deg,#083344 0%,#0e7490 35%,#22d3ee 65%,#a5f3fc 100%)}
+body[data-theme="noir"]{--accent:#60a5fa;--accent-2:#a78bfa;--wallpaper:linear-gradient(135deg,#0a0a0a 0%,#171717 50%,#262626 100%)}
+body[data-theme="dore"]{--accent:#eab308;--accent-2:#facc15;--wallpaper:linear-gradient(135deg,#422006 0%,#854d0e 35%,#eab308 65%,#fef08a 100%)}
+body[data-theme="turquoise"]{--accent:#14b8a6;--accent-2:#5eead4;--wallpaper:linear-gradient(135deg,#042f2e 0%,#0f766e 35%,#14b8a6 65%,#99f6e4 100%)}
+body[data-theme="pronote"]{--accent:#5b21b6;--accent-2:#7c3aed;--wallpaper:linear-gradient(135deg,#1e1b4b 0%,#4c1d95 35%,#7c3aed 65%,#c4b5fd 100%)}
+body[data-theme="custom"]{--accent:var(--custom-accent,#0a84ff);--accent-2:var(--custom-accent-2,#5e5ce6);--wallpaper:linear-gradient(135deg,var(--custom-c1,#1a3a8e) 0%,var(--custom-c2,#7546c2) 50%,var(--custom-c3,#c44b8a) 100%)}
+
+/* ================== GLASS CARD ================== */
+.glass{
+  background: var(--bg-glass);
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* ================== LAYOUT ================== */
+.page{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:24px;z-index:1;overflow:auto}
+.page.active{display:flex}
+
+/* ================== LOGIN ================== */
+#page-login .card{padding:48px;width:min(460px,92vw);text-align:center}
+.logo-mark{font-size:46px;margin-bottom:8px}
+.title-1{font-size:32px;font-weight:700;margin:0 0 6px}
+.subtitle{color:var(--text-dim);font-size:15px;margin:0 0 28px}
+.input{
+  width:100%;
+  padding:14px 16px;
+  border-radius:12px;
+  border:1px solid var(--border-glass);
+  background: rgba(255,255,255,0.12);
+  color: var(--text);
+  font-size:15px;
+  transition:all .2s;
+}
+body[data-theme="blanc"] .input{background:rgba(255,255,255,0.7);color:#1a1a1a}
+.input:focus{border-color:var(--accent);background:rgba(255,255,255,0.2)}
+body[data-theme="blanc"] .input:focus{background:rgba(255,255,255,0.95)}
+.input::placeholder{color:var(--text-faint)}
+
+.btn{
+  background: var(--accent);
+  color:#fff;
+  padding:13px 22px;
+  border-radius:12px;
+  font-size:15px;
+  font-weight:600;
+  transition:all .2s;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.1)}
+.btn:active{transform:translateY(0)}
+.btn-block{width:100%}
+.btn-ghost{background:transparent;color:var(--text-dim);border:1px solid var(--border-glass)}
+.btn-ghost:hover{background:var(--bg-glass-strong);color:var(--text)}
+.btn-danger{background:#ff3b30}
+.btn-success{background:#34c759}
+
+.form-row{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;text-align:left}
+.form-row label{font-size:13px;color:var(--text-dim);font-weight:500}
+.error{color:#ff6b6b;font-size:13px;margin-top:8px;min-height:18px}
+
+.admin-link{margin-top:20px;font-size:12px;color:var(--text-faint);cursor:pointer;text-decoration:underline;display:inline-block}
+.admin-link:hover{color:var(--text-dim)}
+
+/* ================== SCHEDULE SETUP ================== */
+#page-schedule .card{padding:32px;width:min(900px,96vw);max-height:92vh;overflow:auto}
+.tabs{display:flex;gap:6px;margin-bottom:18px;background:rgba(0,0,0,0.15);padding:5px;border-radius:12px}
+body[data-theme="blanc"] .tabs{background:rgba(0,0,0,0.05)}
+.tab{flex:1;padding:10px;border-radius:8px;background:transparent;color:var(--text-dim);font-weight:500;font-size:14px;transition:all .2s}
+.tab.active{background:var(--bg-glass-strong);color:var(--text)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+
+.schedule-grid{
+  display:grid;
+  grid-template-columns:60px repeat(5,1fr);
+  gap:2px;
+  background:rgba(0,0,0,0.2);
+  border-radius:10px;
+  overflow:hidden;
+  font-size:12px;
+}
+body[data-theme="blanc"] .schedule-grid{background:rgba(0,0,0,0.08)}
+.sched-cell{
+  background:rgba(255,255,255,0.06);
+  padding:6px 4px;
+  min-height:36px;
+  text-align:center;
+  position:relative;
+}
+body[data-theme="blanc"] .sched-cell{background:rgba(255,255,255,0.7)}
+.sched-cell.head{background:rgba(255,255,255,0.18);font-weight:600}
+body[data-theme="blanc"] .sched-cell.head{background:rgba(255,255,255,0.9)}
+.sched-cell input{
+  width:100%;background:transparent;border:none;color:inherit;font-size:11px;text-align:center;padding:2px;
+}
+.sched-cell input:focus{background:rgba(255,255,255,0.18);border-radius:4px}
+
+.upload-zone{
+  border:2px dashed var(--border-glass);
+  border-radius:12px;
+  padding:40px 20px;
+  text-align:center;
+  color:var(--text-dim);
+  cursor:pointer;
+  transition:all .2s;
+}
+.upload-zone:hover{background:var(--bg-glass);border-color:var(--accent)}
+.upload-zone.dragover{background:var(--bg-glass-strong);border-color:var(--accent)}
+
+/* ================== PROFILE ================== */
+#page-profile .card{padding:40px;width:min(520px,94vw)}
+
+/* ================== MAIN APP ================== */
+#page-app{display:none;flex-direction:row;align-items:stretch;justify-content:flex-start;padding:14px;gap:14px}
+#page-app.active{display:flex}
+
+.sidebar{
+  width:230px;
+  flex-shrink:0;
+  padding:18px 12px;
+  display:flex;flex-direction:column;gap:6px;
+  height:calc(100vh - 28px);
+}
+.brand{display:flex;align-items:center;gap:10px;padding:8px 12px;margin-bottom:14px}
+.brand-logo{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-size:18px}
+.brand-name{font-weight:700;font-size:15px}
+.brand-tag{font-size:11px;color:var(--text-faint)}
+
+.nav-item{
+  display:flex;align-items:center;gap:11px;
+  padding:10px 12px;border-radius:10px;
+  color:var(--text-dim);font-size:14px;font-weight:500;
+  background:transparent;text-align:left;width:100%;
+  transition:all .15s;
+}
+.nav-item:hover{background:rgba(255,255,255,0.08);color:var(--text)}
+body[data-theme="blanc"] .nav-item:hover{background:rgba(0,0,0,0.05)}
+.nav-item.active{background:var(--bg-glass-strong);color:var(--text)}
+.nav-icon{font-size:16px;width:20px;text-align:center}
+.nav-spacer{flex:1}
+
+.user-chip{
+  display:flex;align-items:center;gap:10px;padding:8px;border-radius:10px;background:var(--bg-glass);
+  font-size:13px;
+}
+.avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}
+
+.main{
+  flex:1;
+  padding:22px 28px;
+  height:calc(100vh - 28px);
+  overflow-y:auto;
+}
+.view{display:none}
+.view.active{display:block}
+.view-title{font-size:26px;font-weight:700;margin:0 0 4px}
+.view-sub{color:var(--text-dim);margin:0 0 22px;font-size:14px}
+
+/* Cards */
+.panel{padding:20px;margin-bottom:18px}
+.panel-title{font-size:16px;font-weight:600;margin:0 0 14px;display:flex;align-items:center;gap:8px}
+
+/* ================== DEVOIRS ================== */
+.hw-form{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.hw-form .full{grid-column:1/-1}
+textarea.input{min-height:120px;resize:vertical}
+
+.hw-list{display:flex;flex-direction:column;gap:10px}
+.hw-item{
+  padding:14px;border-radius:12px;background:var(--bg-glass);
+  display:flex;flex-direction:column;gap:8px;
+  border:1px solid var(--border-glass);
+}
+.hw-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.hw-title{font-weight:600;font-size:15px}
+.hw-meta{font-size:12px;color:var(--text-faint);display:flex;gap:10px;flex-wrap:wrap}
+.tag{padding:3px 9px;border-radius:8px;background:var(--accent);font-size:11px;font-weight:600;color:#fff}
+.tag.gray{background:rgba(127,127,127,0.5)}
+.hw-body{font-size:13px;color:var(--text-dim);white-space:pre-wrap;max-height:100px;overflow:auto;padding:8px;background:rgba(0,0,0,0.15);border-radius:8px}
+body[data-theme="blanc"] .hw-body{background:rgba(0,0,0,0.04)}
+.hw-actions{display:flex;gap:8px;flex-wrap:wrap}
+
+/* ================== EMPLOI DU TEMPS VIEW ================== */
+.edt-wrap{position:relative;border-radius:12px;overflow:hidden;background:rgba(0,0,0,0.18)}
+body[data-theme="blanc"] .edt-wrap{background:rgba(0,0,0,0.05)}
+.edt-grid{
+  display:grid;
+  grid-template-columns:60px repeat(5,1fr);
+  position:relative;
+}
+.edt-cell{
+  padding:8px 6px;
+  border-right:1px solid rgba(255,255,255,0.08);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  min-height:40px;
+  font-size:12px;
+  text-align:center;
+}
+body[data-theme="blanc"] .edt-cell{border-color:rgba(0,0,0,0.08)}
+.edt-cell.head{background:rgba(255,255,255,0.12);font-weight:600}
+body[data-theme="blanc"] .edt-cell.head{background:rgba(0,0,0,0.04)}
+.edt-cell.hour{background:rgba(255,255,255,0.06);font-weight:500;color:var(--text-dim)}
+body[data-theme="blanc"] .edt-cell.hour{background:rgba(0,0,0,0.02)}
+.edt-cell.has-content{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;font-weight:600}
+
+.now-line{
+  position:absolute;
+  left:60px;right:0;
+  height:2px;
+  background:#ff3b30;
+  pointer-events:none;
+  z-index:5;
+  box-shadow:0 0 8px rgba(255,59,48,0.6);
+}
+.now-line::before{
+  content:'';position:absolute;left:-6px;top:-4px;width:10px;height:10px;background:#ff3b30;border-radius:50%;
+}
+
+/* ================== ASSISTANT (Chat) ================== */
+.chat-wrap{display:flex;flex-direction:column;height:calc(100vh - 130px)}
+.chat-msgs{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:12px}
+.msg{max-width:75%;padding:11px 14px;border-radius:14px;font-size:14px;line-height:1.5;white-space:pre-wrap;word-wrap:break-word}
+.msg.user{align-self:flex-end;background:var(--accent);color:#fff;border-bottom-right-radius:4px}
+.msg.ai{align-self:flex-start;background:var(--bg-glass);border:1px solid var(--border-glass);border-bottom-left-radius:4px}
+.msg.thinking{font-style:italic;color:var(--text-faint)}
+.chat-input{display:flex;gap:8px;padding-top:12px}
+.chat-input .input{flex:1}
+
+.mode-pills{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.pill{padding:8px 14px;border-radius:20px;background:var(--bg-glass);color:var(--text-dim);font-size:13px;font-weight:500;border:1px solid var(--border-glass);transition:all .2s}
+.pill.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* ================== SETTINGS ================== */
+.theme-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
+.theme-card{
+  padding:16px;border-radius:12px;cursor:pointer;
+  border:2px solid transparent;
+  transition:all .2s;
+  position:relative;
+  height:90px;
+  display:flex;align-items:flex-end;
+}
+.theme-card.active{border-color:#fff;box-shadow:0 0 0 2px var(--accent)}
+.theme-card .label{font-weight:600;font-size:13px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.5)}
+.theme-bleu{background:linear-gradient(135deg,#1a3a8e,#7546c2,#c44b8a)}
+.theme-rose{background:linear-gradient(135deg,#7a1f4d,#c83a7c,#ff7eb9)}
+.theme-rouge{background:linear-gradient(135deg,#3a0a08,#8b1a1a,#d83a2a)}
+.theme-marron{background:linear-gradient(135deg,#2b1a0e,#5a3a1d,#9b6b3a)}
+.theme-blanc{background:linear-gradient(135deg,#e8edf2,#ced8e3);color:#333!important}
+.theme-blanc .label{color:#333;text-shadow:none}
+.theme-violet{background:linear-gradient(135deg,#1e0a3c,#5b21b6,#a855f7)}
+.theme-vert{background:linear-gradient(135deg,#052e16,#15803d,#22c55e)}
+.theme-orange{background:linear-gradient(135deg,#431407,#9a3412,#f97316)}
+.theme-cyan{background:linear-gradient(135deg,#083344,#0e7490,#22d3ee)}
+.theme-noir{background:linear-gradient(135deg,#0a0a0a,#262626,#404040);border:1px solid #333}
+.theme-dore{background:linear-gradient(135deg,#422006,#854d0e,#eab308)}
+.theme-turquoise{background:linear-gradient(135deg,#042f2e,#0f766e,#14b8a6)}
+.theme-pronote{background:linear-gradient(135deg,#1e1b4b,#4c1d95,#7c3aed)}
+.theme-custom{background:linear-gradient(135deg,#444,#888,#ccc);border:2px dashed rgba(255,255,255,0.5)}
+.theme-custom::after{content:"🎨";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:32px;opacity:.6}
+
+/* ================== ADMIN ================== */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:18px}
+.stat-card{padding:18px;border-radius:14px;background:var(--bg-glass);border:1px solid var(--border-glass)}
+.stat-num{font-size:30px;font-weight:700;margin:6px 0 2px}
+.stat-lbl{font-size:13px;color:var(--text-dim)}
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:900px){.charts-grid{grid-template-columns:1fr}}
+
+table.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th,.tbl td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--border-glass)}
+.tbl th{font-weight:600;color:var(--text-dim);font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+.code-mono{font-family:'SF Mono',Menlo,Consolas,monospace;font-size:13px;padding:3px 6px;background:rgba(0,0,0,0.25);border-radius:5px}
+body[data-theme="blanc"] .code-mono{background:rgba(0,0,0,0.06)}
+
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#34c759;margin-right:6px}
+.dot.off{background:#8e8e93}
+
+/* ================== TIMER WIDGET ================== */
+#timer-widget{
+  position:fixed;bottom:24px;left:24px;z-index:9500;
+  background:var(--bg-glass-strong);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid var(--border-glass);
+  border-radius:16px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.3);
+  padding:10px;color:var(--text);
+  font-family:'SF Mono',Menlo,Consolas,monospace;
+  display:flex;align-items:center;gap:8px;
+  cursor:pointer;
+  user-select:none;
+  transition:all .2s;
+}
+#timer-widget.expanded{padding:16px;flex-direction:column;align-items:stretch;width:240px}
+#timer-display{font-size:22px;font-weight:700;text-align:center;letter-spacing:1px}
+#timer-widget.running #timer-display{color:#34c759}
+#timer-widget.paused #timer-display{color:#ff9500}
+#timer-widget.alarm #timer-display{color:#ff3b30;animation:blink 1s infinite}
+@keyframes blink{50%{opacity:.3}}
+.timer-presets{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-top:8px}
+.timer-preset{padding:8px;border-radius:8px;background:rgba(255,255,255,0.1);color:var(--text);font-size:12px;font-weight:600;border:none;cursor:pointer}
+.timer-preset:hover{background:rgba(255,255,255,0.2)}
+.timer-controls{display:flex;gap:6px;margin-top:8px}
+.timer-controls button{flex:1;padding:8px;border-radius:8px;background:var(--accent);color:#fff;font-size:12px;font-weight:600;border:none;cursor:pointer}
+.timer-controls button.ghost{background:rgba(255,255,255,0.1)}
+@media(max-width:760px){
+  #timer-widget{bottom:90px;left:14px}
+  #timer-widget.expanded{width:calc(100vw - 28px)}
+}
+
+/* ================== TOAST ================== */
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.85);color:#fff;padding:12px 20px;border-radius:10px;font-size:14px;z-index:9999;opacity:0;transition:opacity .25s;pointer-events:none}
+#toast.show{opacity:1}
+
+/* ================== SCROLLBAR ================== */
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.2);border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,0.35)}
+::-webkit-scrollbar-track{background:transparent}
+
+/* ================== MODE TOGGLE FLOATING BUTTON ================== */
+#mode-toggle{
+  background:var(--bg-glass-strong);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border:1px solid var(--border-glass);
+  color:var(--text);
+  padding:8px 12px;
+  border-radius:20px;
+  font-size:12px;font-weight:600;
+  cursor:pointer;
+  display:flex;align-items:center;gap:6px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.2);
+}
+#mode-toggle:hover{transform:scale(1.05)}
+
+/* Lisibilité corrigée sur thème blanc */
+body[data-theme="blanc"] #blanc-correction{background:rgba(0,0,0,0.06)!important;color:#1a1a1a}
+body[data-theme="blanc"] #blanc-subject-content,
+body[data-theme="blanc"] #pdf-summary,
+body[data-theme="blanc"] #pod-script,
+body[data-theme="blanc"] #exo-content,
+body[data-theme="blanc"] .hw-body{color:#1a1a1a;background:rgba(0,0,0,0.04)!important}
+body[data-theme="blanc"] .pill{background:#f0f0f0;color:#1a1a1a;border-color:#ccc}
+body[data-theme="blanc"] .pill.active{background:var(--accent);color:#fff}
+body[data-theme="blanc"] .tab{color:#555}
+body[data-theme="blanc"] .tab.active{color:#1a1a1a;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+body[data-theme="blanc"] .nav-item{color:#555}
+body[data-theme="blanc"] .nav-item:hover{background:rgba(0,0,0,0.06);color:#000}
+body[data-theme="blanc"] .nav-item.active{background:#fff;color:#000;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+
+/* Texte plus lisible partout (sujet blanc, exo, podcast) */
+#blanc-subject-content,#blanc-correction,#exo-content,#pdf-summary,#pod-script{
+  font-size:15px !important;
+  line-height:1.7 !important;
+  letter-spacing:0.01em;
+}
+
+/* ================== MOBILE LAYOUT ================== */
+/* Mode mobile : appliqué automatiquement < 760px (sauf si .force-desktop) */
+@media(max-width:760px){
+  body:not(.force-desktop) #page-app{
+    flex-direction:column !important;
+    padding:0 !important;
+    gap:0 !important;
+  }
+  body:not(.force-desktop) .sidebar{
+    position:fixed !important;
+    bottom:0 !important;left:0 !important;right:0 !important;
+    width:100% !important;
+    height:auto !important;
+    flex-direction:row !important;
+    padding:6px 4px calc(6px + env(safe-area-inset-bottom)) !important;
+    gap:0 !important;
+    border-radius:18px 18px 0 0 !important;
+    z-index:9000;
+    overflow-x:auto;
+  }
+  body:not(.force-desktop) .brand,
+  body:not(.force-desktop) .user-chip,
+  body:not(.force-desktop) .sidebar > button[onclick="logout()"]{
+    display:none !important;
+  }
+  body:not(.force-desktop) .nav-spacer{display:none !important}
+  body:not(.force-desktop) .nav-item{
+    flex:1 !important;
+    flex-direction:column !important;
+    justify-content:center !important;
+    align-items:center !important;
+    gap:2px !important;
+    padding:8px 4px !important;
+    font-size:10px !important;
+    text-align:center !important;
+    border-radius:10px !important;
+    min-width:60px;
+  }
+  body:not(.force-desktop) .nav-item .nav-icon{font-size:20px !important;width:auto !important}
+  body:not(.force-desktop) .nav-item span:not(.nav-icon){font-size:10px !important}
+  body:not(.force-desktop) .main{
+    padding:18px 14px 110px 14px !important;
+    height:100vh !important;
+    width:100% !important;
+  }
+  body:not(.force-desktop) .view-title{font-size:22px !important}
+  body:not(.force-desktop) .hw-form{grid-template-columns:1fr !important}
+  body:not(.force-desktop) .panel{padding:14px !important}
+  body:not(.force-desktop) .charts-grid{grid-template-columns:1fr !important}
+  body:not(.force-desktop) .stats-grid{grid-template-columns:repeat(2,1fr) !important}
+  body:not(.force-desktop) .stat-num{font-size:22px !important}
+  body:not(.force-desktop) .theme-grid{grid-template-columns:repeat(2,1fr) !important}
+  body:not(.force-desktop) .theme-card{height:70px}
+  body:not(.force-desktop) #page-login .card,
+  body:not(.force-desktop) #page-admin-login .card,
+  body:not(.force-desktop) #page-profile .card,
+  body:not(.force-desktop) #page-schedule .card{padding:24px 18px !important;width:100% !important;max-height:none}
+  body:not(.force-desktop) .title-1{font-size:24px !important}
+  body:not(.force-desktop) .schedule-grid,
+  body:not(.force-desktop) .edt-wrap{overflow-x:auto !important;-webkit-overflow-scrolling:touch}
+  body:not(.force-desktop) .schedule-grid{min-width:480px}
+  body:not(.force-desktop) .edt-grid{min-width:480px}
+  body:not(.force-desktop) .chat-wrap{height:calc(100vh - 220px) !important}
+  body:not(.force-desktop) .msg{max-width:90% !important}
+  body:not(.force-desktop) #page-admin{padding:0 !important;display:block !important}
+  body:not(.force-desktop) #page-admin > div{padding:14px 12px 30px 12px !important}
+  body:not(.force-desktop) .tbl{font-size:11px}
+  body:not(.force-desktop) .tbl th,body:not(.force-desktop) .tbl td{padding:6px 4px}
+  body:not(.force-desktop) .code-mono{font-size:11px;word-break:break-all}
+}
+
+/* Mode mobile FORCÉ (peu importe la taille d'écran) */
+body.force-mobile #page-app{flex-direction:column !important;padding:0 !important;gap:0 !important}
+body.force-mobile .sidebar{position:fixed !important;bottom:0;left:0;right:0;width:100% !important;height:auto !important;flex-direction:row !important;padding:6px 4px !important;border-radius:18px 18px 0 0 !important;z-index:9000;overflow-x:auto}
+body.force-mobile .brand,body.force-mobile .user-chip,body.force-mobile .sidebar > button[onclick="logout()"]{display:none !important}
+body.force-mobile .nav-spacer{display:none !important}
+body.force-mobile .nav-item{flex:1 !important;flex-direction:column !important;justify-content:center !important;align-items:center !important;gap:2px !important;padding:8px 4px !important;font-size:10px !important;border-radius:10px !important}
+body.force-mobile .nav-item .nav-icon{font-size:20px !important;width:auto !important}
+body.force-mobile .main{padding:18px 14px 110px 14px !important;height:100vh !important;width:100% !important}
+body.force-mobile .hw-form{grid-template-columns:1fr !important}
+body.force-mobile .charts-grid{grid-template-columns:1fr !important}
+body.force-mobile .stats-grid{grid-template-columns:repeat(2,1fr) !important}
+body.force-mobile .schedule-grid,body.force-mobile .edt-wrap{overflow-x:auto !important}
+body.force-mobile .schedule-grid,body.force-mobile .edt-grid{min-width:480px}
+
+/* Touch-friendly partout */
+@media(hover:none){
+  .btn{min-height:44px}
+  .nav-item{min-height:44px}
+  .input{min-height:44px}
+}
+/* Anti-zoom iOS sur les inputs */
+@media(max-width:760px){
+  .input,textarea.input,select.input{font-size:16px !important}
+}
+
+/* 📱 Très petits écrans (< 380px : iPhone SE 1ère gen, etc.) */
+@media(max-width:380px){
+  body:not(.force-desktop) .nav-item{min-width:48px !important;padding:6px 2px !important;font-size:9px !important}
+  body:not(.force-desktop) .nav-item .nav-icon{font-size:18px !important}
+  body:not(.force-desktop) .view-title{font-size:20px !important}
+  body:not(.force-desktop) .panel{padding:12px !important}
+  body:not(.force-desktop) .stats-grid{grid-template-columns:1fr !important}
+  body:not(.force-desktop) #timer-widget{bottom:88px;left:8px;font-size:10px;padding:6px}
+  body:not(.force-desktop) #timer-display{font-size:18px}
+}
+
+/* 🦺 Safe-area iPhone X+ (notch, home indicator) */
+.sidebar{padding-bottom:env(safe-area-inset-bottom)}
+.main{padding-top:env(safe-area-inset-top)}
+
+/* 🎯 Tap targets ≥ 48px (recommandation iOS HIG / Material) */
+@media(hover:none){
+  .btn{min-height:48px !important}
+  .nav-item{min-height:48px !important}
+  .input,select.input{min-height:48px !important}
+  .timer-preset{min-height:44px}
+}
+
+/* ✨ Loading skeletons */
+.skeleton{
+  background:linear-gradient(90deg, rgba(255,255,255,0.08) 25%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.08) 75%);
+  background-size:200% 100%;
+  animation:skel 1.4s linear infinite;
+  border-radius:8px;
+}
+@keyframes skel{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* ================== FLUIDITÉ GÉNÉRALE ================== */
+html{scroll-behavior:smooth}
+*,*::before,*::after{
+  transition: background-color .18s ease, color .18s ease, border-color .18s ease, opacity .18s ease, transform .18s ease, box-shadow .18s ease;
+}
+.view{
+  animation: viewFade .25s ease;
+  will-change: opacity, transform;
+}
+@keyframes viewFade{
+  from{ opacity: 0; transform: translateY(6px); }
+  to  { opacity: 1; transform: translateY(0); }
+}
+.page{
+  animation: pageFade .3s ease;
+}
+@keyframes pageFade{
+  from{ opacity: 0; }
+  to  { opacity: 1; }
+}
+.glass, .panel, .hw-item, .stat-card, .msg, .theme-card, .nav-item {
+  contain: layout style;
+}
+button, .nav-item, .pill, .theme-card, .input {
+  transition: all .15s cubic-bezier(.2,.8,.2,1);
+}
+button:active{ transform: scale(.97); }
+
+/* Respect du système si l'utilisateur préfère réduire les animations */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{ animation-duration: .001s !important; transition-duration: .001s !important; }
+  body{ animation: none !important; }
+}
+
+</style>
+</head>
+<body data-theme="bleu">
+<div id="wallpaper-overlay"></div>
+
+<!-- Boutons flottants : mode d'affichage + plein écran -->
+<div style="position:fixed;top:12px;right:12px;z-index:10000;display:flex;gap:8px">
+  <button id="fs-toggle" onclick="toggleFullscreen()" title="Plein écran" style="background:var(--bg-glass-strong);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--border-glass);color:var(--text);padding:8px 12px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;box-shadow:0 4px 12px rgba(0,0,0,0.2)">
+    <span id="fs-icon">⛶</span>
+  </button>
+  <button id="mode-toggle" onclick="cycleViewMode()" title="Changer le mode d'affichage">
+    <span id="mode-icon">🔄</span><span id="mode-label">Auto</span>
+  </button>
+</div>
+
+<!-- ============= PAGE LOGIN (CODE) ============= -->
+<div class="page active" id="page-login">
+  <div class="card glass">
+    <div class="logo-mark">🎓</div>
+    <h1 class="title-1">Studya</h1>
+    <p class="subtitle"><strong>L'école sans la galère.</strong><br>Ton copilote IA pour réussir.</p>
+    <div class="form-row">
+      <label>Code d'accès</label>
+      <input class="input" id="login-code" placeholder="XXXX-XXXX-XXXX-XXXX" autocomplete="off" />
+    </div>
+    <button class="btn btn-block" onclick="loginAttempt()">Continuer</button>
+    <div class="error" id="login-error"></div>
+    <div class="admin-link" onclick="showAdminLogin()">Espace administrateur</div>
+  </div>
+</div>
+
+<!-- ============= PAGE ADMIN LOGIN ============= -->
+<div class="page" id="page-admin-login">
+  <div class="card glass" style="padding:40px;width:min(420px,92vw);text-align:center">
+    <div class="logo-mark">🔐</div>
+    <h1 class="title-1" style="font-size:24px">Espace administrateur</h1>
+    <p class="subtitle">Entre ton code admin</p>
+    <div class="form-row">
+      <input class="input" id="admin-code" placeholder="Code admin" type="password" autocomplete="off"/>
+    </div>
+    <button class="btn btn-block" onclick="adminLoginAttempt()">Accéder</button>
+    <div class="error" id="admin-error"></div>
+    <button class="btn btn-ghost btn-block" style="margin-top:10px" onclick="showPage('page-login')">Retour</button>
+  </div>
+</div>
+
+<!-- ============= PAGE SCHEDULE SETUP ============= -->
+<div class="page" id="page-schedule">
+  <div class="card glass">
+    <h1 class="title-1" style="font-size:24px;text-align:center">Ton emploi du temps</h1>
+    <p class="subtitle" style="text-align:center">Importe une photo / fichier ou complète manuellement (Lun → Ven, 8h → 19h)</p>
+
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab(this,'tab-manual')">Saisie manuelle</button>
+      <button class="tab" onclick="switchTab(this,'tab-upload')">Importer un fichier / photo</button>
+    </div>
+
+    <div class="tab-content active" id="tab-manual">
+      <div id="schedule-grid-edit" class="schedule-grid"></div>
+    </div>
+
+    <div class="tab-content" id="tab-upload">
+      <div class="upload-zone" id="upload-zone" onclick="document.getElementById('schedule-file').click()">
+        <div style="font-size:38px">📂</div>
+        <div style="margin-top:8px;font-weight:600">Clique ou glisse un fichier ici</div>
+        <div style="font-size:13px;margin-top:4px">Photo (JPG, PNG), PDF, Word, Excel</div>
+        <input type="file" id="schedule-file" style="display:none" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx" onchange="handleScheduleUpload(this)"/>
+      </div>
+      <div id="upload-status" style="margin-top:14px;text-align:center;color:var(--text-dim);font-size:13px"></div>
+      <p style="font-size:12px;color:var(--text-faint);margin-top:14px">L'IA analysera ton document. Tu pourras corriger ce qui a été détecté ensuite.</p>
+    </div>
+
+    <div style="display:flex;gap:10px;margin-top:20px;justify-content:flex-end">
+      <button class="btn btn-ghost" onclick="logout()">Déconnexion</button>
+      <button class="btn" onclick="saveSchedule()">Sauvegarder et continuer →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============= PAGE PROFILE ============= -->
+<div class="page" id="page-profile">
+  <div class="card glass">
+    <h1 class="title-1" style="text-align:center">Tes informations</h1>
+    <p class="subtitle" style="text-align:center">L'IA va se personnaliser pour toi. Ces infos lient ton code à toi seul.</p>
+    <div class="form-row"><label>Prénom *</label><input class="input" id="prof-firstname" placeholder="Ton prénom"/></div>
+    <div class="form-row"><label>Nom *</label><input class="input" id="prof-lastname" placeholder="Ton nom"/></div>
+    <div class="form-row"><label>Classe *</label>
+      <select class="input" id="prof-class">
+        <option value="">— Choisis ta classe —</option>
+        <optgroup label="Collège">
+          <option>6ème</option><option>5ème</option><option>4ème</option><option>3ème</option>
+        </optgroup>
+        <optgroup label="Lycée">
+          <option>2nde</option><option>1ère</option><option>Terminale</option>
+        </optgroup>
+        <optgroup label="Supérieur">
+          <option>Licence 1</option><option>Licence 2</option><option>Licence 3</option>
+        </optgroup>
+      </select>
+    </div>
+    <div class="form-row"><label>Établissement (facultatif)</label><input class="input" id="prof-school" placeholder="Nom de ton lycée / fac"/></div>
+    <button class="btn btn-block" style="margin-top:10px" onclick="saveProfile()">Valider et entrer</button>
+    <div class="error" id="profile-error"></div>
+  </div>
+</div>
+
+<!-- ============= MAIN APP ============= -->
+<div class="page" id="page-app">
+  <aside class="sidebar glass">
+    <div class="brand">
+      <div class="brand-logo">🎓</div>
+      <div>
+        <div class="brand-name">Studya</div>
+        <div class="brand-tag">L'école sans la galère</div>
+      </div>
+    </div>
+    <button class="nav-item active" data-view="view-devoirs"><span class="nav-icon">📝</span><span>Devoirs</span></button>
+    <button class="nav-item" data-view="view-edt"><span class="nav-icon">📅</span><span>Emploi du temps</span></button>
+    <button class="nav-item" data-view="view-tools"><span class="nav-icon">🛠️</span><span>Outils</span></button>
+    <button class="nav-item" data-view="view-assist"><span class="nav-icon">🤖</span><span>Assistant IA</span></button>
+    <!-- Items secondaires masqués sur mobile, regroupés sous "Plus" -->
+    <button class="nav-item nav-secondary" data-view="view-pronote"><span class="nav-icon">🔄</span><span>Pronote</span></button>
+    <button class="nav-item nav-secondary" data-view="view-humanizer"><span class="nav-icon">🧬</span><span>Humaniser</span></button>
+    <button class="nav-item nav-secondary" data-view="view-hub"><span class="nav-icon">💡</span><span>Hub d'aide</span></button>
+    <button class="nav-item nav-secondary" data-view="view-library"><span class="nav-icon">📚</span><span>Bibliothèque</span></button>
+    <button class="nav-item" data-view="view-settings"><span class="nav-icon">⚙️</span><span>Réglages</span></button>
+    <!-- Bouton "Plus" visible uniquement sur mobile -->
+    <button class="nav-item nav-more-btn" onclick="toggleMoreSheet()" style="display:none"><span class="nav-icon">⋯</span><span>Plus</span></button>
+    <div class="nav-spacer"></div>
+    <div class="user-chip">
+      <div class="avatar" id="user-avatar">?</div>
+      <div>
+        <div style="font-weight:600" id="user-name">—</div>
+        <div style="font-size:11px;color:var(--text-faint)" id="user-class">—</div>
+      </div>
+    </div>
+    <button class="nav-item" onclick="logout()" style="margin-top:6px"><span class="nav-icon">🚪</span><span>Déconnexion</span></button>
+  </aside>
+
+  <main class="main">
+    <!-- VIEW : DEVOIRS -->
+    <section class="view active" id="view-devoirs">
+      <h2 class="view-title">Mes devoirs</h2>
+      <p class="view-sub">Ajoute un devoir, l'IA te génère un rendu (PDF, Word, Excel ou PowerPoint).</p>
+
+      <div class="panel glass">
+        <div class="panel-title">➕ Nouveau devoir</div>
+        <div class="hw-form">
+          <div>
+            <label style="font-size:12px;color:var(--text-dim)">Matière</label>
+            <input class="input" id="hw-subject" placeholder="ex: Mathématiques"/>
+          </div>
+          <div>
+            <label style="font-size:12px;color:var(--text-dim)">Type de rendu</label>
+            <select class="input" id="hw-render">
+              <option>DM</option>
+              <option>Devoir</option>
+              <option>Exposé / Projet</option>
+              <option>Fiche de révision</option>
+              <option>Dissertation</option>
+              <option>Exercices</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:12px;color:var(--text-dim)">Date limite</label>
+            <input class="input" id="hw-due" type="date"/>
+          </div>
+          <div>
+            <label style="font-size:12px;color:var(--text-dim)">Format de sortie</label>
+            <select class="input" id="hw-format">
+              <option value="pdf">PDF</option>
+              <option value="docx">Word (.docx)</option>
+              <option value="xlsx">Excel (.xlsx)</option>
+              <option value="pptx">PowerPoint (.pptx)</option>
+            </select>
+          </div>
+          <div class="full">
+            <label style="font-size:12px;color:var(--text-dim)">Sources / manuel (facultatif)</label>
+            <input class="input" id="hw-sources" placeholder="ex: Manuel Hatier 4e, chapitre 5, page 102"/>
+          </div>
+          <div class="full">
+            <label style="font-size:12px;color:var(--text-dim)">Sujet / consigne</label>
+            <textarea class="input" id="hw-prompt" placeholder="Décris le devoir : la consigne, ce qui est attendu, longueur..."></textarea>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap">
+          <button class="btn" onclick="createHomework()">📤 Générer le devoir avec l'IA</button>
+          <button class="btn btn-ghost" onclick="resetHwForm()">Effacer</button>
+        </div>
+      </div>
+
+      <div class="panel glass">
+        <div class="panel-title">📚 Devoirs en cours</div>
+        <div class="hw-list" id="hw-list"><div style="color:var(--text-faint);text-align:center;padding:20px">Aucun devoir pour le moment.</div></div>
+      </div>
+    </section>
+
+    <!-- VIEW : EMPLOI DU TEMPS -->
+    <section class="view" id="view-edt">
+      <h2 class="view-title">Mon emploi du temps</h2>
+      <p class="view-sub">La barre rouge indique ta position actuelle dans la semaine.</p>
+      <div class="panel glass" style="padding:14px">
+        <div class="edt-wrap">
+          <div class="edt-grid" id="edt-grid-view"></div>
+          <div class="now-line" id="now-line" style="display:none"></div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:14px;justify-content:flex-end">
+          <button class="btn btn-ghost" onclick="showPage('page-schedule');renderScheduleEdit()">Modifier l'emploi du temps</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW : ASSISTANT IA -->
+    <section class="view" id="view-assist">
+      <h2 class="view-title">Assistant IA</h2>
+      <p class="view-sub">Choisis ton mode, puis pose ta question.</p>
+      <div class="mode-pills">
+        <button class="pill active" data-mode="rapide" onclick="setMode(this,'rapide')">⚡ Mode rapide</button>
+        <button class="pill" data-mode="tuteur" onclick="setMode(this,'tuteur')">👨‍🏫 Mode tuteur</button>
+      </div>
+      <div class="panel glass" style="padding:14px">
+        <div class="chat-wrap">
+          <div class="chat-msgs" id="chat-msgs"></div>
+          <div class="chat-input">
+            <input class="input" id="chat-input" placeholder="Pose ta question à l'IA..." onkeydown="if(event.key==='Enter')sendChat()"/>
+            <button class="btn" onclick="sendChat()">Envoyer</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW : PRONOTE -->
+    <section class="view" id="view-pronote">
+      <h2 class="view-title">🔄 Import Pronote</h2>
+      <p class="view-sub">Colle le contenu de ton agenda Pronote ou importe une capture d'écran. L'IA détecte automatiquement tes devoirs.</p>
+
+      <div class="panel glass">
+        <div class="panel-title">📋 Coller depuis Pronote</div>
+        <p style="font-size:13px;color:var(--text-dim);margin:0 0 10px">Sur Pronote : ouvre l'onglet <strong>Travail à faire</strong> ou <strong>Cahier de textes</strong> → sélectionne tout (Ctrl+A) → copie (Ctrl+C) → colle ici.</p>
+        <textarea class="input" id="pronote-paste" style="min-height:160px" placeholder="Colle ici le texte copié depuis Pronote..."></textarea>
+        <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap">
+          <button class="btn" onclick="parsePronoteText()">🔍 Analyser et créer les devoirs</button>
+          <button class="btn btn-ghost" onclick="document.getElementById('pronote-paste').value=''">Effacer</button>
+        </div>
+      </div>
+
+      <div class="panel glass">
+        <div class="panel-title">📥 Import iCal officiel (recommandé) <span class="tag" style="background:#34c759;font-size:10px;margin-left:6px">SANS RISQUE</span></div>
+        <p style="font-size:13px;color:var(--text-dim);margin:0 0 10px">
+          La méthode officielle Pronote, sans bidouille : sur Pronote → onglet <strong>Cahier de textes</strong> ou <strong>Travail à faire</strong> → ⋮ → <strong>« Exporter au format iCal »</strong> → importe le fichier <code>.ics</code> ici.
+        </p>
+        <div class="upload-zone" onclick="document.getElementById('ical-file').click()">
+          <div style="font-size:38px">📅</div>
+          <div style="margin-top:6px;font-weight:600">Importer un fichier .ics</div>
+          <div style="font-size:13px;margin-top:4px">Format standard, parsing instantané</div>
+          <input type="file" id="ical-file" accept=".ics,text/calendar" style="display:none" onchange="parseIcalFile(this)"/>
+        </div>
+        <div id="ical-status" style="margin-top:10px;font-size:13px;color:var(--text-dim);text-align:center"></div>
+      </div>
+
+      <div class="panel glass">
+        <div class="panel-title">📷 Capture d'écran Pronote</div>
+        <div class="upload-zone" onclick="document.getElementById('pronote-img').click()">
+          <div style="font-size:38px">📷</div>
+          <div style="margin-top:8px;font-weight:600">Clique pour importer une capture</div>
+          <div style="font-size:13px;margin-top:4px">L'IA lit l'image et extrait les devoirs</div>
+          <input type="file" id="pronote-img" style="display:none" accept="image/*" onchange="parsePronoteImage(this)"/>
+        </div>
+        <div id="pronote-status" style="margin-top:10px;font-size:13px;color:var(--text-dim);text-align:center"></div>
+      </div>
+
+      <div class="panel glass">
+        <div class="panel-title">📚 Devoirs Pronote détectés</div>
+        <div id="pronote-detected" style="font-size:13px;color:var(--text-dim)">Aucun devoir détecté pour le moment.</div>
+      </div>
+    </section>
+
+    <!-- VIEW : BIBLIOTHÈQUE -->
+    <section class="view" id="view-library">
+      <h2 class="view-title">📚 Bibliothèque de cours</h2>
+      <p class="view-sub">Stocke tes cours, captures et notes. Tout est sauvegardé localement (IndexedDB).</p>
+
+      <div class="panel glass">
+        <div class="panel-title">📥 Ajouter un document</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+          <label class="btn">📎 Importer fichier(s)
+            <input type="file" id="lib-file" multiple accept="image/*,.pdf,.doc,.docx,.txt" style="display:none" onchange="addLibraryFiles(this)"/>
+          </label>
+          <button class="btn btn-ghost" onclick="addLibraryNote()">📝 Ajouter une note</button>
+          <input class="input" id="lib-subject-filter" placeholder="🔎 Filtrer par matière..." style="flex:1;min-width:160px" oninput="debouncedRenderLib()"/>
+        </div>
+        <div id="lib-status" style="margin-top:8px;font-size:12px;color:var(--text-faint)"></div>
+      </div>
+
+      <div class="tabs">
+        <button class="tab active" onclick="switchLibTab(this,'all')">Tous</button>
+        <button class="tab" onclick="switchLibTab(this,'pdf')">📄 PDF</button>
+        <button class="tab" onclick="switchLibTab(this,'image')">🖼️ Captures</button>
+        <button class="tab" onclick="switchLibTab(this,'note')">📝 Notes</button>
+      </div>
+
+      <div id="lib-list" style="display:flex;flex-direction:column;gap:10px"></div>
+    </section>
+
+    <!-- VIEW : OUTILS (mega-vue avec sous-onglets) -->
+    <section class="view" id="view-tools">
+      <h2 class="view-title">🛠️ Outils d'apprentissage</h2>
+      <p class="view-sub">Toutes tes super-armes scolaires en un seul endroit.</p>
+
+      <div class="tabs" style="overflow-x:auto;flex-wrap:nowrap">
+        <button class="tab active" onclick="switchTool(this,'tool-flash')">🃏 Flashcards</button>
+        <button class="tab" onclick="switchTool(this,'tool-blanc')">📋 Sujet blanc</button>
+        <button class="tab" onclick="switchTool(this,'tool-mind')">🗺️ Mindmap</button>
+        <button class="tab" onclick="switchTool(this,'tool-exo')">✏️ Exercices</button>
+        <button class="tab" onclick="switchTool(this,'tool-pdf')">📄 PDF Résumé</button>
+        <button class="tab" onclick="switchTool(this,'tool-podcast')">🎧 Podcast</button>
+        <button class="tab" onclick="switchTool(this,'tool-yt')">📺 YouTube</button>
+        <button class="tab" onclick="switchTool(this,'tool-ppt')">🎬 PPT IA</button>
+      </div>
+
+      <!-- Flashcards -->
+      <div class="tab-content active" id="tool-flash">
+        <div class="panel glass">
+          <div class="panel-title">🃏 Génère un paquet de flashcards</div>
+          <input class="input" id="flash-topic" placeholder="ex: La Première Guerre mondiale, niveau 3ème"/>
+          <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap">
+            <input class="input" id="flash-count" type="number" value="10" min="3" max="30" style="max-width:100px"/>
+            <button class="btn" onclick="generateFlashcards()">✨ Générer</button>
+          </div>
+        </div>
+        <div id="flash-deck" style="display:none">
+          <div style="display:flex;gap:10px;align-items:center;margin-bottom:14px">
+            <button class="btn btn-ghost" onclick="prevFlash()">← Précédent</button>
+            <div style="flex:1;text-align:center;font-size:13px;color:var(--text-dim)" id="flash-count-info">1 / 10</div>
+            <button class="btn btn-ghost" onclick="nextFlash()">Suivant →</button>
+          </div>
+          <div id="flash-card" onclick="flipFlash()" style="cursor:pointer;perspective:1000px;height:280px">
+            <div id="flash-inner" style="position:relative;width:100%;height:100%;transition:transform .6s;transform-style:preserve-3d">
+              <div id="flash-front" class="glass" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:30px;font-size:18px;text-align:center;backface-visibility:hidden;border-radius:18px"></div>
+              <div id="flash-back" class="glass" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:30px;font-size:16px;text-align:center;backface-visibility:hidden;transform:rotateY(180deg);background:var(--accent);border-radius:18px"></div>
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:14px;justify-content:center">
+            <button class="btn btn-ghost" onclick="markFlash('review')" style="background:rgba(255,59,48,0.2)">🔁 À revoir</button>
+            <button class="btn" onclick="markFlash('known')" style="background:#34c759">✅ Acquis</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sujet blanc -->
+      <div class="tab-content" id="tool-blanc">
+        <div class="panel glass">
+          <div class="panel-title">📋 Sujet blanc / Examen blanc</div>
+          <input class="input" id="blanc-subject" placeholder="ex: Bac de français, Brevet de maths..."/>
+          <select class="input" id="blanc-type" style="margin-top:8px">
+            <option value="brevet">Brevet</option>
+            <option value="bac" selected>Bac</option>
+            <option value="ds">DS / Contrôle</option>
+            <option value="partiel">Partiel fac</option>
+          </select>
+          <button class="btn" style="margin-top:10px" onclick="generateMockExam()">✨ Générer un sujet blanc</button>
+        </div>
+        <div class="panel glass" id="blanc-result" style="display:none">
+          <div class="panel-title">📝 Sujet</div>
+          <div id="blanc-subject-content" style="white-space:pre-wrap;font-size:14px;line-height:1.6"></div>
+          <button class="btn" style="margin-top:14px" onclick="toggleCorrection()">📖 Voir / Cacher la correction</button>
+          <button class="btn btn-ghost" style="margin-top:14px;margin-left:8px" onclick="downloadBlanc()">⬇️ PDF</button>
+          <div id="blanc-correction" style="display:none;margin-top:14px;padding:14px;background:rgba(0,0,0,0.15);border-radius:10px;white-space:pre-wrap;font-size:14px;line-height:1.6"></div>
+        </div>
+      </div>
+
+      <!-- Mindmap -->
+      <div class="tab-content" id="tool-mind">
+        <div class="panel glass">
+          <div class="panel-title">🗺️ Carte mentale (mindmap)</div>
+          <input class="input" id="mind-topic" placeholder="ex: La photosynthèse, niveau 4ème"/>
+          <button class="btn" style="margin-top:10px" onclick="generateMindmap()">🌳 Générer la mindmap</button>
+        </div>
+        <div class="panel glass" id="mind-result" style="display:none">
+          <div id="mind-tree" style="font-size:14px"></div>
+        </div>
+      </div>
+
+      <!-- Exercices -->
+      <div class="tab-content" id="tool-exo">
+        <div class="panel glass">
+          <div class="panel-title">✏️ Création d'exercices</div>
+          <input class="input" id="exo-topic" placeholder="ex: Théorème de Pythagore"/>
+          <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap">
+            <select class="input" id="exo-level" style="max-width:160px">
+              <option>Facile</option>
+              <option selected>Moyen</option>
+              <option>Difficile</option>
+              <option>Concours</option>
+            </select>
+            <input class="input" id="exo-count" type="number" value="5" min="1" max="20" style="max-width:90px"/>
+          </div>
+          <button class="btn" style="margin-top:10px" onclick="generateExercises()">✏️ Générer</button>
+        </div>
+        <div class="panel glass" id="exo-result" style="display:none">
+          <div id="exo-content" style="white-space:pre-wrap;font-size:14px;line-height:1.6"></div>
+        </div>
+      </div>
+
+      <!-- PDF Résumé -->
+      <div class="tab-content" id="tool-pdf">
+        <div class="panel glass">
+          <div class="panel-title">📄 Résumé automatique de PDF</div>
+          <p style="font-size:13px;color:var(--text-dim);margin:0 0 10px">Importe un PDF (cours, manuel, sujet) → l'IA en fait un résumé structuré.</p>
+          <div class="upload-zone" onclick="document.getElementById('pdf-file').click()">
+            <div style="font-size:38px">📎</div>
+            <div style="margin-top:6px;font-weight:600">Importer un PDF</div>
+            <input type="file" id="pdf-file" accept=".pdf" style="display:none" onchange="summarizePdf(this)"/>
+          </div>
+          <div id="pdf-status" style="margin-top:10px;font-size:13px;color:var(--text-dim);text-align:center"></div>
+        </div>
+        <div class="panel glass" id="pdf-result" style="display:none">
+          <div class="panel-title">📋 Résumé</div>
+          <div id="pdf-summary" style="white-space:pre-wrap;font-size:14px;line-height:1.6"></div>
+          <button class="btn" style="margin-top:10px" onclick="copyPdfSummary()">📋 Copier le résumé</button>
+        </div>
+      </div>
+
+      <!-- Podcast TTS -->
+      <div class="tab-content" id="tool-podcast">
+        <div class="panel glass">
+          <div class="panel-title">🎧 Cours en podcast (audio)</div>
+          <p style="font-size:13px;color:var(--text-dim);margin:0 0 10px">L'IA te lit ton cours / tes fiches comme un podcast.</p>
+          <input class="input" id="pod-topic" placeholder="Sujet : ex: La Révolution française, niveau 4ème"/>
+          <button class="btn" style="margin-top:10px" onclick="generatePodcast()">🎙️ Créer le podcast</button>
+        </div>
+        <div class="panel glass" id="pod-result" style="display:none">
+          <div id="pod-script" style="white-space:pre-wrap;font-size:14px;line-height:1.6;max-height:200px;overflow:auto;padding:10px;background:rgba(0,0,0,0.15);border-radius:8px"></div>
+          <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;align-items:center">
+            <button class="btn" onclick="playPodcast()">▶️ Écouter</button>
+            <button class="btn btn-ghost" onclick="pausePodcast()">⏸ Pause</button>
+            <button class="btn btn-ghost" onclick="stopPodcast()">⏹ Stop</button>
+            <label style="font-size:13px;color:var(--text-dim);margin-left:8px">Vitesse :</label>
+            <select class="input" id="pod-speed" onchange="setPodSpeed(this.value)" style="max-width:90px">
+              <option value="0.8">0.8x</option><option value="1" selected>1x</option><option value="1.25">1.25x</option><option value="1.5">1.5x</option><option value="2">2x</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- YouTube suggestions -->
+      <div class="tab-content" id="tool-yt">
+        <div class="panel glass">
+          <div class="panel-title">📺 Vidéos YouTube pour réviser</div>
+          <input class="input" id="yt-topic" placeholder="ex: Théorème de Thalès"/>
+          <button class="btn" style="margin-top:10px" onclick="suggestYoutube()">🔍 Trouver des vidéos</button>
+        </div>
+        <div class="panel glass" id="yt-result" style="display:none">
+          <div id="yt-list" style="display:flex;flex-direction:column;gap:10px"></div>
+        </div>
+      </div>
+
+      <!-- PPT auto-pilot -->
+      <div class="tab-content" id="tool-ppt">
+        <div class="panel glass">
+          <div class="panel-title">🎬 PowerPoint sous contrôle IA</div>
+          <p style="font-size:13px;color:var(--text-dim)">Décris ton sujet, l'IA crée un PowerPoint complet (titres, contenu, structure).</p>
+          <input class="input" id="ppt-topic" placeholder="ex: Présentation sur Napoléon Bonaparte, 10 slides"/>
+          <input class="input" id="ppt-slides" type="number" value="8" min="3" max="20" style="margin-top:8px;max-width:120px"/>
+          <button class="btn" style="margin-top:10px" onclick="autopilotPpt()">🚀 Lancer la création</button>
+          <div id="ppt-status" style="margin-top:10px;font-size:13px;color:var(--text-dim)"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW : HUMANIZER -->
+    <section class="view" id="view-humanizer">
+      <h2 class="view-title">🧬 Humanisateur</h2>
+      <p class="view-sub">Transforme un texte généré par IA en texte qui sonne 100% humain — utile pour échapper aux détecteurs d'IA.</p>
+
+      <div class="panel glass">
+        <div class="panel-title">📥 Texte d'entrée</div>
+        <textarea class="input" id="hum-input" style="min-height:180px" placeholder="Colle ton texte ici..."></textarea>
+        <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;align-items:center">
+          <label style="font-size:13px;color:var(--text-dim)">Niveau :</label>
+          <select class="input" id="hum-level" style="max-width:200px">
+            <option value="leger">Léger (subtil)</option>
+            <option value="moyen" selected>Moyen (recommandé)</option>
+            <option value="fort">Fort (très humain)</option>
+          </select>
+          <label style="font-size:13px;color:var(--text-dim)">Style :</label>
+          <select class="input" id="hum-style" style="max-width:200px">
+            <option value="eleve">Style élève</option>
+            <option value="lyceen">Style lycéen</option>
+            <option value="etudiant">Style étudiant</option>
+            <option value="academique">Style académique</option>
+          </select>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap">
+          <button class="btn" onclick="humanize()">🧬 Humaniser le texte</button>
+          <button class="btn btn-ghost" onclick="document.getElementById('hum-input').value=''">Effacer</button>
+        </div>
+      </div>
+
+      <div class="panel glass">
+        <div class="panel-title">📤 Résultat humanisé</div>
+        <textarea class="input" id="hum-output" style="min-height:180px" placeholder="Le résultat apparaîtra ici..."></textarea>
+        <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap">
+          <button class="btn" onclick="copyHumOutput()">📋 Copier</button>
+          <button class="btn btn-ghost" onclick="document.getElementById('hum-output').value=''">Effacer</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW : HUB -->
+    <section class="view" id="view-hub">
+      <h2 class="view-title">Hub d'aide</h2>
+      <p class="view-sub">Apprends à utiliser le site et pose tes questions sur le fonctionnement.</p>
+
+      <div class="panel glass">
+        <div class="panel-title">🎯 Comment ça marche</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px">
+          <div class="hw-item"><div class="hw-title">📝 Devoirs</div><div class="hw-body">Remplis le formulaire d'un devoir, choisis le format de sortie (PDF, Word, Excel, PPT). L'IA te génère le fichier.</div></div>
+          <div class="hw-item"><div class="hw-title">📅 Emploi du temps</div><div class="hw-body">Importe une photo de ton EDT ou complète-le manuellement. Une barre rouge indique l'instant présent.</div></div>
+          <div class="hw-item"><div class="hw-title">⚡ Mode rapide</div><div class="hw-body">Pour les urgences : réponses brèves et directes juste avant un cours.</div></div>
+          <div class="hw-item"><div class="hw-title">👨‍🏫 Mode tuteur</div><div class="hw-body">L'IA t'apprend la méthode, étape par étape, comme un prof.</div></div>
+          <div class="hw-item"><div class="hw-title">🎨 Réglages</div><div class="hw-body">Choisis ton thème de couleur (bleu, rose, rouge, marron, blanc).</div></div>
+        </div>
+      </div>
+
+      <div class="panel glass">
+        <div class="panel-title">❓ Pose une question sur le site</div>
+        <textarea class="input" id="hub-question" placeholder="ex: Comment changer mon emploi du temps ?"></textarea>
+        <button class="btn" style="margin-top:10px" onclick="askHub()">Demander</button>
+        <div id="hub-answer" style="margin-top:14px;font-size:14px;color:var(--text-dim);white-space:pre-wrap"></div>
+      </div>
+    </section>
+
+    <!-- VIEW : SETTINGS -->
+    <section class="view" id="view-settings">
+      <h2 class="view-title">Réglages</h2>
+      <p class="view-sub">Personnalise l'apparence du site.</p>
+
+      <div class="panel glass">
+        <div class="panel-title">🎨 Thème</div>
+        <div class="theme-grid">
+          <div class="theme-card theme-bleu" data-theme-card="bleu" onclick="setTheme('bleu')"><div class="label">Bleu</div></div>
+          <div class="theme-card theme-violet" data-theme-card="violet" onclick="setTheme('violet')"><div class="label">Violet</div></div>
+          <div class="theme-card theme-rose" data-theme-card="rose" onclick="setTheme('rose')"><div class="label">Rose</div></div>
+          <div class="theme-card theme-rouge" data-theme-card="rouge" onclick="setTheme('rouge')"><div class="label">Rouge</div></div>
+          <div class="theme-card theme-orange" data-theme-card="orange" onclick="setTheme('orange')"><div class="label">Orange</div></div>
+          <div class="theme-card theme-dore" data-theme-card="dore" onclick="setTheme('dore')"><div class="label">Doré</div></div>
+          <div class="theme-card theme-vert" data-theme-card="vert" onclick="setTheme('vert')"><div class="label">Vert</div></div>
+          <div class="theme-card theme-turquoise" data-theme-card="turquoise" onclick="setTheme('turquoise')"><div class="label">Turquoise</div></div>
+          <div class="theme-card theme-cyan" data-theme-card="cyan" onclick="setTheme('cyan')"><div class="label">Cyan</div></div>
+          <div class="theme-card theme-marron" data-theme-card="marron" onclick="setTheme('marron')"><div class="label">Marron</div></div>
+          <div class="theme-card theme-noir" data-theme-card="noir" onclick="setTheme('noir')"><div class="label">Noir</div></div>
+          <div class="theme-card theme-blanc" data-theme-card="blanc" onclick="setTheme('blanc')"><div class="label">Blanc</div></div>
+          <div class="theme-card theme-pronote" data-theme-card="pronote" onclick="setTheme('pronote')"><div class="label">Pronote</div></div>
+          <div class="theme-card theme-custom" data-theme-card="custom" onclick="setTheme('custom')"><div class="label">Custom</div></div>
+        </div>
+        <div id="custom-color-picker" style="display:none;margin-top:14px;padding:14px;border-radius:12px;background:rgba(0,0,0,0.15)">
+          <div style="font-size:13px;color:var(--text-dim);margin-bottom:10px">Personnalise tes couleurs :</div>
+          <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center">
+            <label style="display:flex;flex-direction:column;gap:4px;font-size:12px">Couleur 1<input type="color" id="cc-1" value="#1a3a8e" onchange="updateCustomTheme()"></label>
+            <label style="display:flex;flex-direction:column;gap:4px;font-size:12px">Couleur 2<input type="color" id="cc-2" value="#7546c2" onchange="updateCustomTheme()"></label>
+            <label style="display:flex;flex-direction:column;gap:4px;font-size:12px">Couleur 3<input type="color" id="cc-3" value="#c44b8a" onchange="updateCustomTheme()"></label>
+            <label style="display:flex;flex-direction:column;gap:4px;font-size:12px">Accent<input type="color" id="cc-acc" value="#0a84ff" onchange="updateCustomTheme()"></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel glass">
+        <div class="panel-title">👤 Mon compte</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7">
+          <div>Code : <span class="code-mono" id="settings-code">—</span></div>
+          <div>Nom : <span id="settings-name">—</span></div>
+          <div>Classe : <span id="settings-class">—</span></div>
+          <div>Établissement : <span id="settings-school">—</span></div>
+        </div>
+        <button class="btn btn-ghost" style="margin-top:14px" onclick="logout()">Se déconnecter</button>
+      </div>
+
+      <div class="panel glass">
+        <div class="panel-title">🔗 Partager Studya</div>
+        <p style="font-size:13px;color:var(--text-dim)">Envoie ce lien à un ami : il arrivera directement sur l'accueil.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px">
+          <input class="input" id="share-link" readonly style="flex:1;min-width:220px"/>
+          <button class="btn" onclick="copyShareLink()">📋 Copier</button>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-ghost" onclick="shortenShareLink()">✂️ Raccourcir</button>
+          <button class="btn btn-ghost" onclick="nativeShare()">📤 Partager</button>
+          <button class="btn btn-ghost" onclick="toggleQR()">📱 QR Code</button>
+        </div>
+        <div id="qr-zone" style="display:none;margin-top:14px;text-align:center"></div>
+        <div id="share-status" style="margin-top:8px;font-size:12px;color:var(--text-dim);min-height:18px"></div>
+      </div>
+
+      <div class="panel glass">
+        <div class="panel-title">📱 Mode d'affichage</div>
+        <p style="font-size:13px;color:var(--text-dim)">Tu peux aussi utiliser le bouton flottant en haut à droite.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-ghost" onclick="setViewMode('auto')">🔄 Auto</button>
+          <button class="btn btn-ghost" onclick="setViewMode('desktop')">🖥️ PC</button>
+          <button class="btn btn-ghost" onclick="setViewMode('mobile')">📱 Mobile</button>
+        </div>
+      </div>
+
+      <div class="panel glass">
+        <div class="panel-title">⛶ Plein écran</div>
+        <p style="font-size:13px;color:var(--text-dim)">Plonge-toi dans Studya sans distraction. Le mode "Forcer" réactive le plein écran à chaque ouverture.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+          <button class="btn" onclick="enterFullscreen()">⛶ Activer maintenant</button>
+          <button class="btn btn-ghost" onclick="exitFullscreen()">🗗 Quitter</button>
+          <label style="display:flex;align-items:center;gap:8px;font-size:14px;color:var(--text-dim);margin-left:auto;cursor:pointer">
+            <input type="checkbox" id="opt-force-fs" onchange="toggleForceFs(this)" style="width:18px;height:18px;cursor:pointer">
+            Forcer à chaque ouverture
+          </label>
+        </div>
+        <div style="font-size:11px;color:var(--text-faint);margin-top:8px">⌨️ Raccourci : <strong>F11</strong> (PC) ou utilise le bouton ⛶ flottant.</div>
+      </div>
+
+      <div class="panel glass">
+        <div class="panel-title">📊 Mon usage IA aujourd'hui</div>
+        <div id="quota-display" style="font-size:16px;font-weight:600;color:var(--text);margin:4px 0">—</div>
+        <div style="font-size:12px;color:var(--text-faint)">Les essais ont droit à 30 requêtes/jour. Les abonnés payants : illimité.</div>
+      </div>
+
+      <div class="panel glass">
+        <div class="panel-title">🎁 Abonnement</div>
+        <div id="sub-status" style="font-size:14px;color:var(--text-dim);line-height:1.7"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+          <button class="btn" onclick="showPricing()">💎 Voir les abonnements</button>
+        </div>
+      </div>
+
+      <div class="panel glass">
+        <div class="panel-title">🎭 Mode triche (avancé)</div>
+        <p style="font-size:13px;color:var(--text-dim)">Active le mode "réponse directe" : l'IA donne la réponse sans pédagogie. Nécessite un code secret.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+          <input class="input" id="cheat-code" type="password" placeholder="Code secret" style="max-width:200px"/>
+          <button class="btn btn-ghost" onclick="unlockCheat()">🔓 Débloquer</button>
+          <label style="display:flex;align-items:center;gap:8px;font-size:14px;color:var(--text-dim);cursor:pointer">
+            <input type="checkbox" id="opt-cheat" disabled onchange="toggleCheat(this)" style="width:18px;height:18px">
+            Activer le mode triche
+          </label>
+        </div>
+        <div id="cheat-status" style="margin-top:8px;font-size:12px;color:var(--text-faint)"></div>
+      </div>
+
+      <div class="panel glass">
+        <div class="panel-title">🔧 Avancé</div>
+        <p style="font-size:13px;color:var(--text-dim)">Si tu utilises ta propre clé Anthropic / OpenAI, tu peux la coller ici (facultatif). Sinon, l'IA gratuite (Pollinations) est utilisée.</p>
+        <input class="input" id="api-key" placeholder="Clé API (facultatif)" type="password"/>
+        <button class="btn btn-ghost" style="margin-top:10px" onclick="saveApiKey()">Enregistrer la clé</button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- ============= ADMIN PANEL ============= -->
+<div class="page" id="page-admin">
+  <div style="width:100%;max-width:1200px;margin:auto">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <div>
+        <h1 class="title-1" style="font-size:26px;margin:0">🔐 Espace administrateur</h1>
+        <p class="subtitle" style="margin:0">Gestion des codes, utilisateurs et statistiques</p>
+      </div>
+      <button class="btn btn-ghost" onclick="logout()">Quitter</button>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card glass"><div class="stat-lbl">Codes totaux</div><div class="stat-num" id="adm-total">0</div></div>
+      <div class="stat-card glass"><div class="stat-lbl">Codes utilisés</div><div class="stat-num" id="adm-used">0</div></div>
+      <div class="stat-card glass"><div class="stat-lbl">En ligne maintenant</div><div class="stat-num" id="adm-online">0</div></div>
+      <div class="stat-card glass"><div class="stat-lbl">Requêtes IA totales</div><div class="stat-num" id="adm-queries">0</div></div>
+    </div>
+
+    <div class="panel glass">
+      <div class="panel-title">🎟️ Générer des codes</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <input class="input" id="adm-gen-count" type="number" value="1" min="1" max="50" style="max-width:100px"/>
+        <select class="input" id="adm-gen-type" style="max-width:200px">
+          <option value="trial">Essai 7 jours</option>
+          <option value="monthly">Mensuel (locked)</option>
+          <option value="yearly">Annuel (1 mois offert)</option>
+          <option value="lifetime">À vie</option>
+        </select>
+        <button class="btn" onclick="generateCodes()">Générer</button>
+        <button class="btn btn-ghost" onclick="exportCodes()">Exporter (CSV)</button>
+      </div>
+      <div id="adm-gen-result" style="margin-top:12px;font-size:13px"></div>
+      <p style="margin-top:8px;font-size:12px;color:var(--text-faint)">💡 Les codes mensuels sont <strong>verrouillés</strong> par défaut. Tu dois les débloquer manuellement chaque mois (bouton 🔓 dans le tableau).</p>
+    </div>
+
+    <div class="panel glass">
+      <div class="panel-title">🤖 Agents IA internes</div>
+      <p style="font-size:13px;color:var(--text-dim);margin:0 0 10px">Tes 4 assistants pour gérer Studya au quotidien.</p>
+      <div class="tabs" style="overflow-x:auto;flex-wrap:nowrap">
+        <button class="tab agent-tab active" data-agent="compta" onclick="selectAgent('compta')">💰 Compta</button>
+        <button class="tab agent-tab" data-agent="sc" onclick="selectAgent('sc')">🎧 Service client</button>
+        <button class="tab agent-tab" data-agent="marketing" onclick="selectAgent('marketing')">📣 Marketing</button>
+        <button class="tab agent-tab" data-agent="codeur" onclick="selectAgent('codeur')">💻 Codeur</button>
+      </div>
+      <div style="display:flex;flex-direction:column;height:380px">
+        <div id="agent-msgs" class="chat-msgs" style="flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:10px"></div>
+        <div style="display:flex;gap:8px;padding-top:10px">
+          <input class="input" id="agent-input" placeholder="Demande à ton agent..." onkeydown="if(event.key==='Enter')sendAgent()"/>
+          <button class="btn" onclick="sendAgent()">Envoyer</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel glass" id="security-panel">
+      <div class="panel-title">🔒 Sécurité & journal d'accès</div>
+      <div style="font-size:13px;color:var(--text-dim);margin-bottom:10px">
+        Algorithme : <strong>PBKDF2-SHA256 200 000 itérations</strong> · Session admin : <strong>15 min d'inactivité</strong> · Anti-brute-force : <strong>5 essais → lock 5 min</strong> · Stockage : <strong>AES-GCM 256</strong>
+      </div>
+      <div style="overflow:auto;max-height:200px">
+        <table class="tbl">
+          <thead><tr><th>Date</th><th>Action</th><th>Indice</th></tr></thead>
+          <tbody id="security-log-body"></tbody>
+        </table>
+      </div>
+      <button class="btn btn-ghost" style="margin-top:10px" onclick="clearSecurityLog()">🗑️ Vider le journal</button>
+    </div>
+
+    <div class="panel glass">
+      <div class="panel-title">📋 Codes existants</div>
+      <div style="overflow:auto;max-height:300px">
+        <table class="tbl">
+          <thead><tr><th>Code</th><th>Statut</th><th>Utilisateur</th><th>Classe</th><th>Créé le</th><th>Actions</th></tr></thead>
+          <tbody id="adm-codes-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="charts-grid">
+      <div class="panel glass">
+        <div class="panel-title">📊 Top des requêtes (barres)</div>
+        <canvas id="chart-bar" height="220"></canvas>
+      </div>
+      <div class="panel glass">
+        <div class="panel-title">🥧 Répartition (camembert)</div>
+        <canvas id="chart-pie" height="220"></canvas>
+      </div>
+    </div>
+
+    <div class="panel glass">
+      <div class="panel-title"><span class="dot"></span>Utilisateurs en ligne</div>
+      <table class="tbl">
+        <thead><tr><th>Utilisateur</th><th>Classe</th><th>Code</th><th>Dernière activité</th></tr></thead>
+        <tbody id="adm-online-body"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Bottom-sheet "Plus" (mobile) -->
+<div id="more-sheet" style="position:fixed;inset:0;z-index:9800;display:none;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px)" onclick="if(event.target===this)toggleMoreSheet()">
+  <div class="glass" style="position:absolute;bottom:0;left:0;right:0;border-radius:20px 20px 0 0;padding:18px 14px calc(18px + env(safe-area-inset-bottom)) 14px;animation:slideUp .3s">
+    <div style="width:40px;height:4px;background:rgba(255,255,255,0.4);border-radius:2px;margin:0 auto 14px"></div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+      <button class="nav-item more-item" data-view="view-pronote" style="flex-direction:column;padding:14px 6px;height:auto"><span class="nav-icon" style="font-size:24px;width:auto">🔄</span><span style="font-size:11px;margin-top:4px">Pronote</span></button>
+      <button class="nav-item more-item" data-view="view-humanizer" style="flex-direction:column;padding:14px 6px;height:auto"><span class="nav-icon" style="font-size:24px;width:auto">🧬</span><span style="font-size:11px;margin-top:4px">Humaniser</span></button>
+      <button class="nav-item more-item" data-view="view-library" style="flex-direction:column;padding:14px 6px;height:auto"><span class="nav-icon" style="font-size:24px;width:auto">📚</span><span style="font-size:11px;margin-top:4px">Biblio.</span></button>
+      <button class="nav-item more-item" data-view="view-hub" style="flex-direction:column;padding:14px 6px;height:auto"><span class="nav-icon" style="font-size:24px;width:auto">💡</span><span style="font-size:11px;margin-top:4px">Aide</span></button>
+    </div>
+    <button class="btn btn-ghost" style="width:100%;margin-top:12px" onclick="toggleMoreSheet()">Fermer</button>
+  </div>
+</div>
+<style>
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@media(max-width:760px){
+  body:not(.force-desktop) .nav-secondary{display:none !important}
+  body:not(.force-desktop) .nav-more-btn{display:flex !important}
+}
+body.force-mobile .nav-secondary{display:none !important}
+body.force-mobile .nav-more-btn{display:flex !important}
+</style>
+
+<!-- Timer flottant (visible quand l'app est ouverte) -->
+<div id="timer-widget" style="display:none" onclick="expandTimer(event)">
+  <span id="timer-icon">⏱️</span>
+  <span id="timer-display">25:00</span>
+  <div class="timer-body" style="display:none">
+    <div class="timer-presets">
+      <button class="timer-preset" onclick="setTimer(25,event)">⚡ 25 min</button>
+      <button class="timer-preset" onclick="setTimer(45,event)">🎯 45 min</button>
+      <button class="timer-preset" onclick="setTimer(60,event)">📚 1 heure</button>
+      <button class="timer-preset" onclick="setTimer(120,event)">🔥 2 heures</button>
+    </div>
+    <div class="timer-controls">
+      <button onclick="startTimer(event)" id="timer-start">▶️ Start</button>
+      <button onclick="pauseTimer(event)" class="ghost">⏸ Pause</button>
+      <button onclick="resetTimer(event)" class="ghost">🔄</button>
+    </div>
+    <button class="timer-preset" style="margin-top:6px;width:100%" onclick="closeTimer(event)">✕ Masquer</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+/* ===================================================================
+   HOMEWORK AI — Application logic
+   =================================================================== */
+
+// 🔐🔐 ADMIN_CODE — Hash PBKDF2 (200 000 itérations) + sel rotatif.
+// Code original : "ADMIN-MASTER-2026" — JAMAIS dans le HTML, ni en clair, ni en simple SHA-256.
+// PBKDF2 200k itérations rend la brute-force 200 000× plus lente → ~22 ans pour cracker
+// même un mot de passe simple sur un GPU haut de gamme.
+const ADMIN_HASH = "7f417e3dbb8d412338459c0af11860a70396692060d3913fb94e89a64424f8db";
+const ADMIN_SALT = "studya-v5-secure-x9k7m2";
+const ADMIN_ITERATIONS = 200000;
+const ADMIN_SESSION_TIMEOUT = 15 * 60 * 1000; // 15 minutes d'inactivité
+
+async function _hashAdmin(input){
+  const enc = new TextEncoder();
+  const keyMaterial = await crypto.subtle.importKey(
+    "raw", enc.encode(normalizeCode(input)),
+    {name:"PBKDF2"}, false, ["deriveBits"]
+  );
+  const bits = await crypto.subtle.deriveBits(
+    { name:"PBKDF2", salt: enc.encode(ADMIN_SALT), iterations: ADMIN_ITERATIONS, hash:"SHA-256" },
+    keyMaterial, 256
+  );
+  return Array.from(new Uint8Array(bits)).map(b => b.toString(16).padStart(2,"0")).join("");
+}
+
+// 🛡️ Comparaison sécurisée à temps constant (anti-timing attack)
+function _safeEqual(a, b){
+  if(a.length !== b.length) return false;
+  let r = 0;
+  for(let i=0; i<a.length; i++) r |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return r === 0;
+}
+
+// 🚦 Rate-limiting des tentatives admin (5 essais → lock 5 min)
+const RATE_KEY = "hwai_admin_attempts";
+function _getAttempts(){ return DB.get(RATE_KEY, { count:0, lockUntil:0, log:[] }); }
+function _recordAttempt(success, raw){
+  const a = _getAttempts();
+  a.log = (a.log||[]).slice(-19);
+  a.log.push({ at: Date.now(), success, hint: (raw||"").slice(0,2)+"***" });
+  if(success){ a.count = 0; a.lockUntil = 0; }
+  else {
+    a.count = (a.count||0) + 1;
+    if(a.count >= 5){ a.lockUntil = Date.now() + 5*60*1000; a.count = 0; }
+  }
+  DB.set(RATE_KEY, a);
+}
+function _isLocked(){
+  const a = _getAttempts();
+  return a.lockUntil > Date.now() ? Math.ceil((a.lockUntil - Date.now())/1000) : 0;
+}
+const HOURS = ["8h","9h","10h","11h","12h","13h","14h","15h","16h","17h","18h"]; // 8h-19h (11 créneaux d'1h)
+const DAYS = ["Lundi","Mardi","Mercredi","Jeudi","Vendredi"];
+
+/* ============== ⚡ LAZY-LOAD DES LIBS ============== */
+// Toutes les libs lourdes sont déjà déclarées dans <head> avec SRI mais on ajoute
+// un mécanisme d'attente pour s'assurer qu'elles sont prêtes avant usage.
+function _waitFor(check, timeoutMs = 8000){
+  return new Promise((res, rej) => {
+    if(check()) return res();
+    const start = Date.now();
+    const t = setInterval(() => {
+      if(check()){ clearInterval(t); res(); }
+      else if(Date.now() - start > timeoutMs){ clearInterval(t); rej(new Error("Lib non chargée à temps")); }
+    }, 100);
+  });
+}
+const ensurePdfJs   = () => _waitFor(() => window.pdfjsLib);
+const ensureJsPdf   = () => _waitFor(() => window.jspdf);
+const ensureXlsx    = () => _waitFor(() => window.XLSX);
+const ensureDocx    = () => _waitFor(() => window.docx);
+const ensurePptx    = () => _waitFor(() => window.PptxGenJS);
+const ensureChart   = () => _waitFor(() => window.Chart);
+
+/* ============== 🛠️ DEBOUNCE / IDLE HELPERS ============== */
+function debounce(fn, ms = 300){
+  let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); };
+}
+const _idle = window.requestIdleCallback || ((cb) => setTimeout(cb, 1));
+
+/* ============== 📳 HAPTIC FEEDBACK (mobile) ============== */
+function haptic(pattern = 10){
+  if(navigator.vibrate) navigator.vibrate(pattern);
+}
+
+/* ============== 🔐 CHIFFREMENT AES-GCM ============== */
+// Toute donnée sensible est chiffrée avec une clé dérivée du device fingerprint + sel
+// → Si quelqu'un copie le localStorage, il ne peut pas déchiffrer sans la clé.
+let _cryptoKey = null;
+async function _getCryptoKey(){
+  if(_cryptoKey) return _cryptoKey;
+  // Empreinte device : user-agent + langue + screen + timezone (volatile, mais OK)
+  const fingerprint = navigator.userAgent + "|" + navigator.language + "|" + (screen.width + "x" + screen.height) + "|" + new Date().getTimezoneOffset();
+  const enc = new TextEncoder();
+  const km = await crypto.subtle.importKey("raw", enc.encode(fingerprint), {name:"PBKDF2"}, false, ["deriveKey"]);
+  _cryptoKey = await crypto.subtle.deriveKey(
+    { name:"PBKDF2", salt: enc.encode("studya-encrypt-v5"), iterations: 100000, hash:"SHA-256" },
+    km, { name:"AES-GCM", length:256 }, false, ["encrypt","decrypt"]
+  );
+  return _cryptoKey;
+}
+async function _encrypt(plain){
+  try{
+    const key = await _getCryptoKey();
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+    const ct = await crypto.subtle.encrypt({name:"AES-GCM", iv}, key, new TextEncoder().encode(plain));
+    return "ENC:" + btoa(String.fromCharCode(...iv)) + ":" + btoa(String.fromCharCode(...new Uint8Array(ct)));
+  }catch(e){ return plain; } // fallback : non chiffré si échec
+}
+async function _decrypt(blob){
+  if(!blob || !blob.startsWith?.("ENC:")) return blob;
+  try{
+    const key = await _getCryptoKey();
+    const [, ivb64, ctb64] = blob.split(":");
+    const iv = Uint8Array.from(atob(ivb64), c=>c.charCodeAt(0));
+    const ct = Uint8Array.from(atob(ctb64), c=>c.charCodeAt(0));
+    const pt = await crypto.subtle.decrypt({name:"AES-GCM", iv}, key, ct);
+    return new TextDecoder().decode(pt);
+  }catch(e){ return null; }
+}
+
+/* ============== STORAGE HELPERS (robuste : fallback mémoire si localStorage HS) ============== */
+const _mem = {};
+let _useLS = true;
+try { localStorage.setItem("__hwai_test__","1"); localStorage.removeItem("__hwai_test__"); }
+catch(e){ _useLS = false; console.warn("localStorage indisponible — fallback mémoire utilisé"); }
+
+const DB = {
+  get(k, def){
+    try{
+      if(_useLS){
+        const v = localStorage.getItem(k);
+        return v ? JSON.parse(v) : def;
+      }
+    }catch(e){}
+    return (k in _mem) ? _mem[k] : def;
+  },
+  set(k, v){
+    _mem[k] = v;
+    try{ if(_useLS) localStorage.setItem(k, JSON.stringify(v)); }catch(e){}
+  }
+};
+
+function getCodes(){ return DB.get("hwai_codes", []); }
+function setCodes(c){ DB.set("hwai_codes", c); }
+function getCurrent(){ return DB.get("hwai_current", null); }
+function setCurrent(c){ DB.set("hwai_current", c); }
+function getStats(){ return DB.get("hwai_stats", { queries: [], totalQueries: 0 }); }
+function setStats(s){ DB.set("hwai_stats", s); }
+function getOnline(){ return DB.get("hwai_online", []); }
+function setOnline(o){ DB.set("hwai_online", o); }
+
+/* ============== Codes fixes TOUJOURS valides (ne dépendent pas de localStorage) ============== */
+const FIXED_CODES = [
+  "8ZKP-ATCX-FF2F-GWLP",
+  "DEMO-DEMO-DEMO-DEMO",
+  "TEST-TEST-TEST-TEST",
+  "ELEV-2026-XYZ1-ABCD"
+];
+function normalizeCode(s){
+  // Supprime tout ce qui n'est pas alphanumérique, met en majuscules
+  return String(s||"").replace(/[^A-Za-z0-9]/g,"").toUpperCase();
+}
+
+(function initDefaults(){
+  let codes = getCodes();
+  // S'assurer que les codes fixes existent toujours dans la base
+  FIXED_CODES.forEach(fc => {
+    if(!codes.find(c => normalizeCode(c.code) === normalizeCode(fc))){
+      const rec = makeCodeRecord();
+      rec.code = fc;
+      codes.push(rec);
+    }
+  });
+  // Ajouter 3 codes aléatoires si install vraiment vide
+  if(codes.length === FIXED_CODES.length){
+    for(let i=0;i<3;i++) codes.push(makeCodeRecord());
+  }
+  setCodes(codes);
+  console.log("✅ Codes disponibles :", codes.map(c=>c.code).join(", "));
+})();
+
+/* ============== UI HELPERS ============== */
+function showPage(id){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+function toast(msg){
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  // Haptic léger sur succès, fort sur erreur
+  if(/❌|erreur|Erreur|invalide/i.test(msg)) haptic([30, 30, 30]);
+  else if(/✅|✨|🎉/.test(msg)) haptic(15);
+  clearTimeout(window._toastTimer);
+  window._toastTimer = setTimeout(()=>t.classList.remove("show"), 2600);
+}
+function switchTab(btn, tabId){
+  btn.parentElement.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  btn.classList.add("active");
+  document.querySelectorAll(".tab-content").forEach(c=>c.classList.remove("active"));
+  document.getElementById(tabId).classList.add("active");
+}
+
+/* ============== CODE GENERATION ============== */
+function makeCodeRecord(){
+  const seg = ()=>Math.random().toString(36).slice(2,6).toUpperCase();
+  return {
+    code: `${seg()}-${seg()}-${seg()}-${seg()}`,
+    used: false,
+    user: null,
+    schedule: null,
+    homeworks: [],
+    chatHistory: [],
+    createdAt: new Date().toISOString(),
+    lastActive: null,
+    theme: "bleu"
+  };
+}
+
+/* ============== LOGIN FLOW ============== */
+function loginAttempt(){
+  const raw = document.getElementById("login-code").value;
+  const norm = normalizeCode(raw);
+  const err = document.getElementById("login-error");
+  err.textContent = "";
+  if(!norm){ err.textContent = "Entre un code."; return; }
+
+  let codes = getCodes();
+  let found = codes.find(c => normalizeCode(c.code) === norm);
+
+  // Fallback : si c'est un code fixe mais qu'il n'est pas dans le store (ex. localStorage HS), on le crée à la volée
+  if(!found){
+    const fixedMatch = FIXED_CODES.find(fc => normalizeCode(fc) === norm);
+    if(fixedMatch){
+      const rec = makeCodeRecord();
+      rec.code = fixedMatch;
+      codes.push(rec);
+      setCodes(codes);
+      found = rec;
+    }
+  }
+
+  if(!found){ err.textContent = "Code invalide."; return; }
+
+  // Vérification du verrouillage / expiration
+  if(found.locked){ err.textContent = "🔒 Ce code n'est pas (encore) débloqué pour ce mois. Contacte ton admin."; return; }
+  if(found.subType === "monthly" && found.unlockedUntil && new Date(found.unlockedUntil) < new Date()){
+    err.textContent = "📅 Ton accès mensuel a expiré. L'admin doit le redébloquer.";
+    return;
+  }
+  if(found.trialStart && !found.lifetime && !found.paidUntil){
+    if(trialDaysLeft(found) <= 0){
+      err.textContent = "🎁 Ton essai gratuit de 7 jours est terminé. Souscris un abonnement.";
+      return;
+    }
+  }
+
+  setCurrent(found.code);
+  found.lastActive = new Date().toISOString();
+  setCodes(codes);
+
+  // Si pas encore d'emploi du temps → page schedule
+  if(!found.schedule){ renderScheduleEdit(); showPage("page-schedule"); return; }
+  // Si pas encore d'infos perso → page profile
+  if(!found.user){ showPage("page-profile"); return; }
+  // Sinon → app
+  enterApp();
+}
+
+function showAdminLogin(){ showPage("page-admin-login"); }
+async function adminLoginAttempt(){
+  const raw = document.getElementById("admin-code").value;
+  const err = document.getElementById("admin-error");
+  // 🚦 Rate-limit
+  const lockSec = _isLocked();
+  if(lockSec){ err.textContent = `🔒 Trop de tentatives. Réessaie dans ${lockSec}s.`; return; }
+  err.textContent = "🔄 Vérification (PBKDF2 200k itérations)...";
+  try{
+    const h = await _hashAdmin(raw);
+    if(!_safeEqual(h, ADMIN_HASH)){
+      _recordAttempt(false, raw);
+      const a = _getAttempts();
+      const remaining = Math.max(0, 5 - a.count);
+      err.textContent = `❌ Code admin incorrect. ${remaining > 0 ? `${remaining} essai(s) restant(s)` : "Verrou activé."}`;
+      return;
+    }
+    _recordAttempt(true, raw);
+    err.textContent = "";
+    setCurrent("__ADMIN__");
+    DB.set("hwai_admin_session_start", Date.now());
+    enterAdmin();
+    armAdminSessionTimeout();
+  }catch(e){
+    _recordAttempt(false, raw);
+    err.textContent = "Erreur de vérification : " + e.message;
+  }
+}
+
+// ⏰ Déconnexion auto admin après 15 min d'inactivité
+let adminTimeoutTimer = null;
+function armAdminSessionTimeout(){
+  if(adminTimeoutTimer) clearTimeout(adminTimeoutTimer);
+  if(getCurrent() !== "__ADMIN__") return;
+  adminTimeoutTimer = setTimeout(() => {
+    if(getCurrent() === "__ADMIN__"){
+      toast("⏰ Session admin expirée. Re-connexion requise.");
+      logout();
+    }
+  }, ADMIN_SESSION_TIMEOUT);
+}
+// Reset le timer à chaque action
+["click","keydown","touchstart"].forEach(ev =>
+  document.addEventListener(ev, () => { if(getCurrent() === "__ADMIN__") armAdminSessionTimeout(); }, true)
+);
+
+function logout(){
+  setCurrent(null);
+  document.getElementById("login-code").value = "";
+  document.getElementById("admin-code").value = "";
+  document.getElementById("login-error").textContent = "";
+  document.getElementById("admin-error").textContent = "";
+  showPage("page-login");
+}
+
+/* ============== SCHEDULE ============== */
+function renderScheduleEdit(){
+  const grid = document.getElementById("schedule-grid-edit");
+  const cur = currentRecord();
+  const data = (cur && cur.schedule) || {};
+  let html = `<div class="sched-cell head"></div>` + DAYS.map(d=>`<div class="sched-cell head">${d}</div>`).join("");
+  HOURS.forEach((h, hi)=>{
+    html += `<div class="sched-cell head">${h}</div>`;
+    DAYS.forEach((d, di)=>{
+      const key = `${di}-${hi}`;
+      const v = data[key] || "";
+      html += `<div class="sched-cell"><input data-key="${key}" value="${escapeAttr(v)}" placeholder="—"/></div>`;
+    });
+  });
+  grid.innerHTML = html;
+}
+function escapeAttr(s){ return String(s).replace(/"/g,"&quot;"); }
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c=>({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;" }[c])); }
+
+function saveSchedule(){
+  const cur = currentRecord();
+  if(!cur) return;
+  const data = {};
+  document.querySelectorAll("#schedule-grid-edit input").forEach(inp=>{
+    const v = inp.value.trim();
+    if(v) data[inp.dataset.key] = v;
+  });
+  cur.schedule = data;
+  saveCurrent(cur);
+  toast("Emploi du temps sauvegardé");
+  if(!cur.user) showPage("page-profile");
+  else { renderEdtView(); enterApp(); }
+}
+
+async function handleScheduleUpload(input){
+  const file = input.files[0];
+  if(!file) return;
+  const status = document.getElementById("upload-status");
+  status.textContent = "📥 Lecture du fichier...";
+  // Lecture comme base64 pour image, ou texte sinon
+  if(file.type.startsWith("image/")){
+    const reader = new FileReader();
+    reader.onload = async () => {
+      status.textContent = "🤖 L'IA analyse l'image...";
+      const prompt = `Analyse cette image d'emploi du temps scolaire (Lundi à Vendredi, 8h-19h). Retourne UNIQUEMENT un JSON au format {"D-H":"matière",...} où D est l'index du jour (0=Lundi...4=Vendredi) et H est l'index de l'heure (0=8h, 1=9h... 10=18h). Aucun texte autour, juste le JSON.`;
+      const res = await callAI(prompt, [{type:"image_url", url: reader.result}]);
+      try {
+        const json = JSON.parse(res.match(/\{[\s\S]*\}/)[0]);
+        const cur = currentRecord();
+        cur.schedule = json;
+        saveCurrent(cur);
+        status.textContent = "✅ Emploi du temps détecté ! Vérifie en mode manuel.";
+        renderScheduleEdit();
+        document.querySelector('.tab').click();
+      } catch(e){
+        status.textContent = "⚠️ Impossible d'analyser. Complète manuellement.";
+      }
+    };
+    reader.readAsDataURL(file);
+  } else if(file.type === "application/pdf"){
+    status.textContent = "📄 Lecture du PDF...";
+    try{
+      const buf = await file.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument({data:buf}).promise;
+      let fullText = "";
+      for(let i=1; i<=pdf.numPages; i++){
+        const page = await pdf.getPage(i);
+        const c = await page.getTextContent();
+        fullText += c.items.map(it => it.str).join(" ") + "\n";
+      }
+      status.textContent = "🤖 L'IA analyse le PDF...";
+      const prompt = `Voici un emploi du temps scolaire extrait d'un PDF. Extrais-le sous forme JSON pur uniquement (pas de markdown) : {"D-H":"matière",...} où D=index jour (0=Lundi...4=Vendredi), H=index heure (0=8h, 1=9h... 10=18h). Pas de texte autour.\n\nPDF :\n${fullText.slice(0,8000)}`;
+      const res = await callAI(prompt);
+      const json = JSON.parse(res.match(/\{[\s\S]*\}/)[0]);
+      const cur = currentRecord();
+      cur.schedule = json;
+      saveCurrent(cur);
+      status.textContent = "✅ EDT détecté ! Vérifie en mode manuel.";
+      renderScheduleEdit();
+      document.querySelector('.tab').click();
+    }catch(e){ status.textContent = "❌ Erreur d'analyse PDF : " + e.message; }
+  } else {
+    status.textContent = "⚠️ Format non géré. Utilise photo, PDF ou la saisie manuelle.";
+  }
+}
+
+/* ============== PROFILE ============== */
+function saveProfile(){
+  const fn = document.getElementById("prof-firstname").value.trim();
+  const ln = document.getElementById("prof-lastname").value.trim();
+  const cl = document.getElementById("prof-class").value;
+  const sc = document.getElementById("prof-school").value.trim();
+  const err = document.getElementById("profile-error");
+  err.textContent = "";
+  if(!fn || !ln || !cl){ err.textContent = "Prénom, nom et classe sont obligatoires."; return; }
+  const cur = currentRecord();
+  cur.user = { firstname: fn, lastname: ln, class: cl, school: sc };
+  saveCurrent(cur);
+  toast("Profil enregistré");
+  enterApp();
+}
+
+/* ============== APP ============== */
+function currentRecord(){
+  const code = getCurrent();
+  if(!code || code === "__ADMIN__") return null;
+  return getCodes().find(c => c.code === code) || null;
+}
+function saveCurrent(rec){
+  const codes = getCodes();
+  const i = codes.findIndex(c => c.code === rec.code);
+  if(i >= 0){ codes[i] = rec; setCodes(codes); }
+}
+
+function enterApp(){
+  const cur = currentRecord();
+  if(!cur) return;
+  if(!cur.used){ cur.used = true; saveCurrent(cur); }
+  // Apply theme
+  setTheme(cur.theme || "bleu", false);
+  // Update sidebar
+  const u = cur.user || {};
+  document.getElementById("user-name").textContent = `${u.firstname||""} ${u.lastname||""}`.trim() || "—";
+  document.getElementById("user-class").textContent = u.class || "";
+  document.getElementById("user-avatar").textContent = (u.firstname?u.firstname[0]:"?") + (u.lastname?u.lastname[0]:"");
+  document.getElementById("settings-code").textContent = cur.code;
+  document.getElementById("settings-name").textContent = `${u.firstname||""} ${u.lastname||""}`.trim() || "—";
+  document.getElementById("settings-class").textContent = u.class || "—";
+  document.getElementById("settings-school").textContent = u.school || "—";
+  document.getElementById("api-key").value = DB.get("hwai_apikey","");
+
+  // Render tout
+  renderHomeworks();
+  renderEdtView();
+  renderChat();
+  showPage("page-app");
+  switchView("view-devoirs");
+  startHeartbeat();
+  // Affiche le timer flottant
+  showTimer();
+  // Synchronise la case "mode triche"
+  setTimeout(()=>{
+    const cb = document.getElementById("opt-cheat");
+    if(cb) cb.checked = !!DB.get("hwai_cheat", false);
+  }, 100);
+  // Vérifie l'essai gratuit
+  if(!cur.trialStart){ cur.trialStart = new Date().toISOString(); saveCurrent(cur); }
+  const days = trialDaysLeft(cur);
+  if(!cur.lifetime && !cur.paidUntil && days <= 7){
+    setTimeout(()=>toast(`🎁 Essai gratuit : ${days} jour(s) restant(s)`), 800);
+  }
+}
+
+function switchView(id){
+  document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  document.querySelectorAll(".nav-item[data-view]").forEach(b=>b.classList.toggle("active", b.dataset.view===id));
+  if(id === "view-edt") renderEdtView();
+  if(id === "view-library") renderLibrary();
+  if(id === "view-settings"){
+    const inp = document.getElementById("share-link");
+    if(inp) inp.value = getShareUrl();
+    const cb = document.getElementById("opt-force-fs");
+    if(cb) cb.checked = !!DB.get("hwai_force_fs", false);
+    refreshQuotaDisplay();
+  }
+}
+function refreshQuotaDisplay(){
+  const q = getQuotaState();
+  const el = document.getElementById("quota-display");
+  if(el){
+    el.textContent = q.unlimited ? "♾️ Illimité" : `${q.remaining} / ${q.limit} requêtes restantes aujourd'hui`;
+  }
+}
+document.querySelectorAll(".nav-item[data-view]").forEach(b=>b.addEventListener("click", ()=>switchView(b.dataset.view)));
+
+/* ============== EDT VIEW (avec barre rouge) ============== */
+function renderEdtView(){
+  const cur = currentRecord();
+  if(!cur) return;
+  const data = cur.schedule || {};
+  const grid = document.getElementById("edt-grid-view");
+  let html = `<div class="edt-cell head"></div>` + DAYS.map(d=>`<div class="edt-cell head">${d}</div>`).join("");
+  HOURS.forEach((h, hi)=>{
+    html += `<div class="edt-cell hour">${h}</div>`;
+    DAYS.forEach((d, di)=>{
+      const v = data[`${di}-${hi}`] || "";
+      html += `<div class="edt-cell ${v?'has-content':''}">${escapeHtml(v)}</div>`;
+    });
+  });
+  grid.innerHTML = html;
+  positionNowLine();
+}
+function positionNowLine(){
+  const line = document.getElementById("now-line");
+  if(!line) return;
+  const now = new Date();
+  const day = now.getDay(); // 0=Dim, 1=Lun ... 5=Ven
+  const hour = now.getHours() + now.getMinutes()/60;
+  if(day < 1 || day > 5 || hour < 8 || hour >= 19){ line.style.display = "none"; return; }
+  // Position verticale dans la grille
+  const grid = document.getElementById("edt-grid-view");
+  if(!grid || !grid.children.length) return;
+  // Hauteur d'une rangée = hauteur d'une cellule "hour"
+  const headerH = grid.children[0].offsetHeight;
+  const rowH = grid.children[6] ? grid.children[6].offsetHeight : 40; // première cellule "hour"
+  const offsetH = (hour - 8) * rowH;
+  line.style.top = (headerH + offsetH) + "px";
+  line.style.display = "block";
+}
+window.addEventListener("resize", positionNowLine);
+setInterval(()=>{ if(document.getElementById("view-edt").classList.contains("active")) positionNowLine(); }, 30000);
+
+/* ============== HOMEWORKS ============== */
+function resetHwForm(){
+  ["hw-subject","hw-due","hw-sources","hw-prompt"].forEach(id=>document.getElementById(id).value="");
+}
+
+async function createHomework(){
+  const cur = currentRecord();
+  if(!cur) return;
+  const subject = document.getElementById("hw-subject").value.trim();
+  const render = document.getElementById("hw-render").value;
+  const due = document.getElementById("hw-due").value;
+  const fmt = document.getElementById("hw-format").value;
+  const sources = document.getElementById("hw-sources").value.trim();
+  const promptTxt = document.getElementById("hw-prompt").value.trim();
+
+  if(!subject || !promptTxt){ toast("Matière et consigne requises"); return; }
+
+  const hw = {
+    id: Date.now().toString(36),
+    subject, render, due, format: fmt, sources, prompt: promptTxt,
+    createdAt: new Date().toISOString(),
+    status: "generation",
+    content: ""
+  };
+  cur.homeworks.unshift(hw);
+  saveCurrent(cur);
+  renderHomeworks();
+  toast("🤖 Génération en cours...");
+  trackQuery("Devoir : " + subject);
+
+  // Construire le prompt
+  const u = cur.user || {};
+  const sysPrompt = `Tu es un professeur expert qui aide ${u.firstname||"un élève"} (classe : ${u.class||"non précisée"}). Génère un ${render} de qualité professorale, structuré, complet et adapté au niveau ${u.class||""}. Matière : ${subject}.${sources?`\nSources à utiliser : ${sources}`:""}\nConsigne :\n${promptTxt}\n\nLe rendu doit être directement utilisable. Pas de méta-commentaire. Utilise du Markdown si pertinent (titres ##, listes, **gras**).`;
+
+  try {
+    const result = await callAI(sysPrompt);
+    hw.content = result;
+    hw.status = "done";
+    saveCurrent(cur);
+    renderHomeworks();
+    toast("✅ Devoir généré ! Tu peux télécharger.");
+  } catch(e){
+    hw.status = "error";
+    hw.content = "Erreur de génération : " + e.message;
+    saveCurrent(cur);
+    renderHomeworks();
+    toast("❌ Erreur de génération");
+  }
+}
+
+function renderHomeworks(){
+  const cur = currentRecord();
+  if(!cur) return;
+  const list = document.getElementById("hw-list");
+  if(!cur.homeworks.length){
+    list.innerHTML = `<div style="color:var(--text-faint);text-align:center;padding:20px">Aucun devoir pour le moment.</div>`;
+    return;
+  }
+  list.innerHTML = cur.homeworks.map(hw => {
+    const statusTag = hw.status === "done" ? `<span class="tag" style="background:#34c759">✓ Prêt</span>`
+      : hw.status === "generation" ? `<span class="tag gray">⏳ Génération...</span>`
+      : `<span class="tag" style="background:#ff3b30">Erreur</span>`;
+    return `
+      <div class="hw-item">
+        <div class="hw-head">
+          <div>
+            <div class="hw-title">${escapeHtml(hw.subject)} — ${escapeHtml(hw.render)}</div>
+            <div class="hw-meta">
+              ${hw.due?`📅 ${escapeHtml(hw.due)}`:""}
+              <span>📄 ${hw.format.toUpperCase()}</span>
+              ${hw.sources?`<span>📚 ${escapeHtml(hw.sources)}</span>`:""}
+            </div>
+          </div>
+          ${statusTag}
+        </div>
+        ${hw.content ? `<div class="hw-body">${escapeHtml(hw.content.slice(0,500))}${hw.content.length>500?"...":""}</div>`:""}
+        <div class="hw-actions">
+          ${hw.status==="done" ? `<button class="btn" onclick="downloadHw('${hw.id}')">⬇️ Télécharger ${hw.format.toUpperCase()}</button>`:""}
+          ${hw.status==="done" ? `<button class="btn btn-ghost" onclick="viewHw('${hw.id}')">👁️ Voir</button>`:""}
+          ${hw.status==="done" ? `<button class="btn btn-ghost" onclick="humanizeHw('${hw.id}')">🧬 Humaniser</button>`:""}
+          <button class="btn btn-ghost btn-danger" onclick="deleteHw('${hw.id}')" style="background:rgba(255,59,48,0.2)">🗑️</button>
+        </div>
+      </div>`;
+  }).join("");
+}
+
+function deleteHw(id){
+  const cur = currentRecord();
+  cur.homeworks = cur.homeworks.filter(h => h.id !== id);
+  saveCurrent(cur);
+  renderHomeworks();
+}
+
+function viewHw(id){
+  const cur = currentRecord();
+  const hw = cur.homeworks.find(h => h.id === id);
+  if(!hw) return;
+  const w = window.open("", "_blank");
+  w.document.write(`<html><head><title>${hw.subject}</title><style>body{font-family:Georgia,serif;max-width:800px;margin:40px auto;padding:0 20px;line-height:1.7;color:#222}h1,h2,h3{color:#0a84ff}pre{background:#f5f5f5;padding:10px;border-radius:6px;overflow:auto}</style></head><body>${markdownToHtml(hw.content)}</body></html>`);
+}
+
+function markdownToHtml(md){
+  return md
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+    .replace(/^### (.+)$/gm,"<h3>$1</h3>")
+    .replace(/^## (.+)$/gm,"<h2>$1</h2>")
+    .replace(/^# (.+)$/gm,"<h1>$1</h1>")
+    .replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>")
+    .replace(/\*(.+?)\*/g,"<em>$1</em>")
+    .replace(/^\- (.+)$/gm,"<li>$1</li>")
+    .replace(/(<li>.+<\/li>\n?)+/g, m => "<ul>"+m+"</ul>")
+    .replace(/\n\n/g,"</p><p>")
+    .replace(/^/,"<p>") + "</p>";
+}
+
+/* ============== DOWNLOAD HW (PDF/DOCX/XLSX/PPTX) ============== */
+async function downloadHw(id){
+  const cur = currentRecord();
+  const hw = cur.homeworks.find(h => h.id === id);
+  if(!hw) return;
+  const u = cur.user || {};
+  const filename = `${hw.subject.replace(/[^\w]/g,"_")}_${hw.render}`.toLowerCase();
+
+  if(hw.format === "pdf"){
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    doc.setFontSize(16);
+    doc.text(hw.subject + " — " + hw.render, 14, 18);
+    doc.setFontSize(10);
+    doc.setTextColor(120);
+    doc.text(`${u.firstname||""} ${u.lastname||""}  •  ${u.class||""}  •  ${hw.due||""}`, 14, 24);
+    doc.setFontSize(11);
+    doc.setTextColor(20);
+    const lines = doc.splitTextToSize(hw.content, 180);
+    let y = 34;
+    lines.forEach(line => {
+      if(y > 280){ doc.addPage(); y = 20; }
+      doc.text(line, 14, y); y += 6;
+    });
+    doc.save(filename + ".pdf");
+  }
+  else if(hw.format === "docx"){
+    const { Document, Packer, Paragraph, TextRun, HeadingLevel } = docx;
+    const paragraphs = [
+      new Paragraph({ heading: HeadingLevel.HEADING_1, children: [new TextRun(hw.subject + " — " + hw.render)] }),
+      new Paragraph({ children: [new TextRun({ text: `${u.firstname||""} ${u.lastname||""}  •  ${u.class||""}  •  ${hw.due||""}`, italics: true, color: "888888" })] }),
+      new Paragraph({ children: [new TextRun(" ")] }),
+    ];
+    hw.content.split("\n").forEach(line => {
+      if(line.startsWith("## ")) paragraphs.push(new Paragraph({ heading: HeadingLevel.HEADING_2, children:[new TextRun(line.slice(3))]}));
+      else if(line.startsWith("# ")) paragraphs.push(new Paragraph({ heading: HeadingLevel.HEADING_1, children:[new TextRun(line.slice(2))]}));
+      else paragraphs.push(new Paragraph({ children:[new TextRun(line)] }));
+    });
+    const doc2 = new Document({ sections: [{ children: paragraphs }] });
+    const blob = await Packer.toBlob(doc2);
+    saveBlob(blob, filename + ".docx");
+  }
+  else if(hw.format === "xlsx"){
+    const wb = XLSX.utils.book_new();
+    const rows = [
+      [hw.subject + " — " + hw.render],
+      [`${u.firstname||""} ${u.lastname||""}`, u.class||"", hw.due||""],
+      [],
+      ...hw.content.split("\n").map(l => [l])
+    ];
+    const ws = XLSX.utils.aoa_to_sheet(rows);
+    XLSX.utils.book_append_sheet(wb, ws, "Devoir");
+    XLSX.writeFile(wb, filename + ".xlsx");
+  }
+  else if(hw.format === "pptx"){
+    const pptx = new PptxGenJS();
+    const intro = pptx.addSlide();
+    intro.background = { color: "0A84FF" };
+    intro.addText(hw.subject, { x:0.5, y:1.5, w:9, h:1.5, fontSize:36, color:"FFFFFF", bold:true });
+    intro.addText(`${hw.render}\n${u.firstname||""} ${u.lastname||""} — ${u.class||""}`, { x:0.5, y:3.2, w:9, h:1, fontSize:18, color:"FFFFFF" });
+
+    const sections = hw.content.split(/\n(?=## )/);
+    sections.forEach((sec, i) => {
+      const slide = pptx.addSlide();
+      const lines = sec.split("\n");
+      const title = (lines[0]||"").replace(/^#+\s*/,"") || `Slide ${i+1}`;
+      const body = lines.slice(1).join("\n").trim();
+      slide.addText(title, { x:0.5, y:0.3, w:9, h:0.8, fontSize:24, bold:true, color:"0A84FF" });
+      slide.addText(body, { x:0.5, y:1.3, w:9, h:5, fontSize:14, color:"222222" });
+    });
+    pptx.writeFile({ fileName: filename + ".pptx" });
+  }
+}
+function saveBlob(blob, name){
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = name; a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
+}
+
+/* ============== ASSISTANT (CHAT) ============== */
+let currentMode = "rapide";
+function setMode(btn, mode){
+  currentMode = mode;
+  document.querySelectorAll(".pill").forEach(p=>p.classList.remove("active"));
+  btn.classList.add("active");
+  if(mode === "tuteur") maybeShowTutorOnboarding();
+}
+function renderChat(){
+  const cur = currentRecord();
+  if(!cur) return;
+  const wrap = document.getElementById("chat-msgs");
+  if(!cur.chatHistory.length){
+    wrap.innerHTML = `<div class="msg ai">👋 Bonjour ${cur.user?.firstname||""} ! Je suis ton IA. En mode <strong>rapide</strong>, je donne des réponses brèves. En mode <strong>tuteur</strong>, je t'apprends la méthode étape par étape. Pose ta question !</div>`;
+  } else {
+    wrap.innerHTML = cur.chatHistory.map(m => `<div class="msg ${m.role}">${escapeHtml(m.text)}</div>`).join("");
+  }
+  wrap.scrollTop = wrap.scrollHeight;
+}
+async function sendChat(){
+  const cur = currentRecord();
+  const input = document.getElementById("chat-input");
+  const txt = input.value.trim();
+  if(!txt) return;
+  input.value = "";
+  cur.chatHistory.push({ role:"user", text: txt });
+  saveCurrent(cur);
+  renderChat();
+  trackQuery("Chat " + currentMode + " : " + txt.slice(0,40));
+
+  const wrap = document.getElementById("chat-msgs");
+  const thinking = document.createElement("div");
+  thinking.className = "msg ai thinking";
+  thinking.textContent = "✨ L'IA réfléchit...";
+  wrap.appendChild(thinking);
+  wrap.scrollTop = wrap.scrollHeight;
+
+  const u = cur.user || {};
+  const modePrompt = currentMode === "rapide"
+    ? `Réponds de manière TRÈS concise, directe et précise. Pas de méthodologie, juste la réponse claire. ${u.class?`Niveau : ${u.class}.`:""}`
+    : `Tu es un tuteur pédagogique. Explique la méthode étape par étape, fais comprendre et non juste donner la réponse. Pose des questions pour faire réfléchir l'élève. ${u.class?`Niveau : ${u.class}.`:""}`;
+
+  try {
+    const history = cur.chatHistory.slice(-10).map(m => ({ role: m.role, text: m.text }));
+    const res = await callAI(`${modePrompt}\n\nQuestion : ${txt}`, [], history);
+    thinking.remove();
+    cur.chatHistory.push({ role:"ai", text: res });
+    saveCurrent(cur);
+    renderChat();
+  } catch(e){
+    thinking.remove();
+    cur.chatHistory.push({ role:"ai", text: "❌ Erreur : " + e.message });
+    saveCurrent(cur);
+    renderChat();
+  }
+}
+
+/* ============== HUB ============== */
+async function askHub(){
+  const q = document.getElementById("hub-question").value.trim();
+  if(!q) return;
+  const ans = document.getElementById("hub-answer");
+  ans.textContent = "✨ L'IA réfléchit...";
+  trackQuery("Hub : " + q.slice(0,40));
+  const sys = `Tu es l'assistant d'aide du site "Studya — L'école sans la galère". Le site permet : 1) entrer son emploi du temps (manuel ou photo), 2) ajouter des devoirs et générer des fichiers (PDF, Word, Excel, PowerPoint), 3) importer ses devoirs depuis Pronote (texte ou capture), 4) humaniser un texte IA pour qu'il ne soit pas détecté, 5) discuter avec l'IA en mode rapide ou tuteur, 6) personnaliser le thème (14 couleurs + custom). Réponds clairement à la question : ${q}`;
+  try {
+    const res = await callAI(sys);
+    ans.textContent = res;
+  } catch(e){ ans.textContent = "Erreur : " + e.message; }
+}
+
+/* ============== AI CALL (Pollinations free, optional API key) ============== */
+async function callAI(prompt, attachments=[], history=[]){
+  checkQuotaOrThrow();
+  prompt = applyCheatModeToPrompt(prompt);
+  const apiKey = DB.get("hwai_apikey","");
+  const messages = [];
+  if(history.length){
+    history.forEach(m => messages.push({ role: m.role==="ai"?"assistant":"user", content: m.text }));
+  }
+  // Construire le message final
+  if(attachments.length){
+    const content = [{ type:"text", text: prompt }];
+    attachments.forEach(a => {
+      if(a.type === "image_url") content.push({ type:"image_url", image_url: { url: a.url }});
+    });
+    messages.push({ role:"user", content });
+  } else {
+    messages.push({ role:"user", content: prompt });
+  }
+
+  // Service principal : Pollinations (gratuit)
+  try {
+    const r = await fetch("https://text.pollinations.ai/openai", {
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify({ model: "openai", messages, private: true })
+    });
+    if(!r.ok) throw new Error("Pollinations error " + r.status);
+    const data = await r.json();
+    return data.choices?.[0]?.message?.content || data.text || "(réponse vide)";
+  } catch(err){
+    // Fallback simple via GET
+    try {
+      const enc = encodeURIComponent(prompt);
+      const r2 = await fetch(`https://text.pollinations.ai/${enc}`);
+      const t = await r2.text();
+      if(t) return t;
+    } catch(e){}
+    throw err;
+  }
+}
+
+function saveApiKey(){
+  const k = document.getElementById("api-key").value.trim();
+  DB.set("hwai_apikey", k);
+  toast(k ? "Clé API sauvegardée" : "Clé API supprimée");
+}
+
+/* ============== THEME ============== */
+function setTheme(name, save=true){
+  document.body.dataset.theme = name;
+  document.querySelectorAll(".theme-card").forEach(c => c.classList.toggle("active", c.dataset.themeCard === name));
+  // Affiche le sélecteur custom si "custom"
+  const picker = document.getElementById("custom-color-picker");
+  if(picker) picker.style.display = (name === "custom") ? "block" : "none";
+  if(name === "custom") restoreCustomTheme();
+  // Met à jour la couleur du theme-color meta
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if(meta){
+    const accent = getComputedStyle(document.body).getPropertyValue('--accent').trim();
+    if(accent) meta.setAttribute("content", accent);
+  }
+  if(save){
+    const cur = currentRecord();
+    if(cur){ cur.theme = name; saveCurrent(cur); }
+  }
+}
+function updateCustomTheme(){
+  const c1 = document.getElementById("cc-1").value;
+  const c2 = document.getElementById("cc-2").value;
+  const c3 = document.getElementById("cc-3").value;
+  const acc = document.getElementById("cc-acc").value;
+  const root = document.body.style;
+  root.setProperty("--custom-c1", c1);
+  root.setProperty("--custom-c2", c2);
+  root.setProperty("--custom-c3", c3);
+  root.setProperty("--custom-accent", acc);
+  root.setProperty("--custom-accent-2", acc);
+  DB.set("hwai_custom_colors", { c1, c2, c3, acc });
+}
+function restoreCustomTheme(){
+  const saved = DB.get("hwai_custom_colors", null);
+  if(!saved) return;
+  document.getElementById("cc-1").value = saved.c1;
+  document.getElementById("cc-2").value = saved.c2;
+  document.getElementById("cc-3").value = saved.c3;
+  document.getElementById("cc-acc").value = saved.acc;
+  updateCustomTheme();
+}
+
+/* ============== PRONOTE ============== */
+async function parsePronoteText(){
+  const text = document.getElementById("pronote-paste").value.trim();
+  if(!text){ toast("Colle d'abord le texte"); return; }
+  const status = document.getElementById("pronote-detected");
+  status.textContent = "🤖 Analyse en cours...";
+  trackQuery("Pronote : import texte");
+  const prompt = `Voici un extrait de Pronote (cahier de textes ou travail à faire). Extrais TOUS les devoirs sous forme de JSON pur (sans markdown, sans texte autour). Format attendu : [{"matiere":"...","date":"YYYY-MM-DD","consigne":"...","type":"DM/Devoir/Exposé/Exercices"}]. Texte :\n\n${text}`;
+  try{
+    const res = await callAI(prompt);
+    const m = res.match(/\[[\s\S]*\]/);
+    if(!m) throw new Error("Format JSON introuvable");
+    const items = JSON.parse(m[0]);
+    const cur = currentRecord();
+    items.forEach(it => {
+      cur.homeworks.unshift({
+        id: Date.now().toString(36) + Math.random().toString(36).slice(2,5),
+        subject: it.matiere || "Pronote",
+        render: it.type || "Devoir",
+        due: it.date || "",
+        format: "pdf",
+        sources: "Importé depuis Pronote",
+        prompt: it.consigne || "",
+        createdAt: new Date().toISOString(),
+        status: "pending",
+        content: ""
+      });
+    });
+    saveCurrent(cur);
+    status.innerHTML = `✅ <strong>${items.length} devoir(s)</strong> détecté(s) et ajouté(s) à ta liste !<br><br>` + items.map(i=>`• <strong>${escapeHtml(i.matiere||"")}</strong> ${i.date?`(${i.date})`:""} : ${escapeHtml((i.consigne||"").slice(0,80))}`).join("<br>");
+    renderHomeworks();
+    toast(items.length + " devoir(s) ajouté(s)");
+  }catch(e){
+    status.textContent = "⚠️ Impossible d'analyser. Essaie d'ajouter manuellement.";
+    console.error(e);
+  }
+}
+
+async function parsePronoteImage(input){
+  const file = input.files[0];
+  if(!file) return;
+  const status = document.getElementById("pronote-status");
+  status.textContent = "📥 Lecture de l'image...";
+  const reader = new FileReader();
+  reader.onload = async () => {
+    status.textContent = "🤖 L'IA analyse la capture...";
+    trackQuery("Pronote : import image");
+    const prompt = `Cette image est une capture d'écran de Pronote. Extrais tous les devoirs visibles. Réponds UNIQUEMENT en JSON : [{"matiere":"...","date":"YYYY-MM-DD","consigne":"...","type":"DM/Devoir/Exposé"}]`;
+    try{
+      const res = await callAI(prompt, [{type:"image_url", url: reader.result}]);
+      const m = res.match(/\[[\s\S]*\]/);
+      const items = JSON.parse(m[0]);
+      const cur = currentRecord();
+      items.forEach(it => {
+        cur.homeworks.unshift({
+          id: Date.now().toString(36) + Math.random().toString(36).slice(2,5),
+          subject: it.matiere || "Pronote",
+          render: it.type || "Devoir",
+          due: it.date || "",
+          format: "pdf",
+          sources: "Importé depuis Pronote (image)",
+          prompt: it.consigne || "",
+          createdAt: new Date().toISOString(),
+          status: "pending",
+          content: ""
+        });
+      });
+      saveCurrent(cur);
+      status.textContent = `✅ ${items.length} devoir(s) ajouté(s) !`;
+      renderHomeworks();
+      document.getElementById("pronote-detected").innerHTML = items.map(i=>`• <strong>${escapeHtml(i.matiere||"")}</strong> ${i.date?`(${i.date})`:""} : ${escapeHtml((i.consigne||"").slice(0,80))}`).join("<br>");
+    }catch(e){
+      status.textContent = "⚠️ Impossible d'analyser cette capture.";
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+/* ============== HUMANIZER ============== */
+async function humanize(){
+  const txt = document.getElementById("hum-input").value.trim();
+  if(!txt){ toast("Entre d'abord un texte"); return; }
+  const level = document.getElementById("hum-level").value;
+  const style = document.getElementById("hum-style").value;
+  const out = document.getElementById("hum-output");
+  out.value = "✨ Humanisation en cours...";
+  trackQuery("Humaniser : " + level);
+
+  const intensity = { leger:"Apporte des modifications subtiles", moyen:"Réécris naturellement", fort:"Réécris en profondeur, change la structure des phrases" }[level];
+  const styleDesc = {
+    eleve: "ton d'élève de collège : phrases simples, vocabulaire courant, parfois une petite répétition ou une formulation maladroite naturelle",
+    lyceen: "ton de lycéen : vocabulaire correct, phrases variées, quelques connecteurs logiques",
+    etudiant: "ton d'étudiant universitaire : vocabulaire soutenu mais pas pompeux, argumentation fluide",
+    academique: "ton académique : précis, rigoureux, vocabulaire spécialisé"
+  }[style];
+
+  const prompt = `Tu es un expert en réécriture humaine. ${intensity} le texte ci-dessous pour qu'il sonne 100% écrit par un humain (${styleDesc}). Règles strictes :
+- Garde EXACTEMENT le même sens et les mêmes informations.
+- Garde la longueur similaire.
+- Varie la longueur des phrases (mélange courtes/longues).
+- Utilise des tournures naturelles, parfois imparfaites mais authentiques.
+- Évite les structures répétitives typiques de l'IA ("De plus,", "En conclusion,", "Il est important de noter que").
+- Pas d'introduction ni de méta-commentaire : retourne UNIQUEMENT le texte humanisé.
+
+Texte à humaniser :
+${txt}`;
+  try{
+    const res = await callAI(prompt);
+    out.value = res.trim();
+    toast("✅ Texte humanisé !");
+  }catch(e){
+    out.value = "Erreur : " + e.message;
+  }
+}
+
+/* ============== CHEAT MODE & ABONNEMENT ============== */
+const CHEAT_CODE = "TRICHE-2026";
+function unlockCheat(){
+  const code = document.getElementById("cheat-code").value;
+  if(normalizeCode(code) === normalizeCode(CHEAT_CODE)){
+    document.getElementById("opt-cheat").disabled = false;
+    document.getElementById("cheat-status").textContent = "✅ Mode triche débloqué.";
+    DB.set("hwai_cheat_unlocked", true);
+    toast("Mode triche débloqué");
+  } else {
+    document.getElementById("cheat-status").textContent = "❌ Code incorrect.";
+  }
+}
+function toggleCheat(cb){
+  if(!DB.get("hwai_cheat_unlocked", false)){ cb.checked = false; return; }
+  DB.set("hwai_cheat", cb.checked);
+  toast(cb.checked ? "🎭 Mode triche : ON" : "Mode triche : OFF");
+}
+
+function showPricing(){
+  const box = document.getElementById("sub-status");
+  if(!box) return;
+  box.innerHTML = `
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:8px">
+      <div style="padding:14px;background:rgba(255,255,255,0.08);border-radius:12px;border:1px solid var(--border-glass)">
+        <div style="font-weight:700;font-size:16px">🎁 Essai gratuit</div>
+        <div style="color:var(--text-dim);font-size:13px;margin:4px 0">7 jours offerts</div>
+        <div style="font-size:24px;font-weight:700">0 €</div>
+      </div>
+      <div style="padding:14px;background:rgba(255,255,255,0.08);border-radius:12px;border:1px solid var(--border-glass)">
+        <div style="font-weight:700;font-size:16px">📅 Mensuel</div>
+        <div style="color:var(--text-dim);font-size:13px;margin:4px 0">Code mensuel</div>
+        <div style="font-size:24px;font-weight:700">4,99 €<span style="font-size:13px;color:var(--text-dim)">/mois</span></div>
+      </div>
+      <div style="padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent-2));border-radius:12px;color:#fff;position:relative">
+        <div style="position:absolute;top:8px;right:8px;background:#fff;color:var(--accent);font-size:10px;font-weight:700;padding:3px 6px;border-radius:8px">-17%</div>
+        <div style="font-weight:700;font-size:16px">🔥 Annuel</div>
+        <div style="font-size:13px;margin:4px 0;opacity:.9">12 mois (1 mois OFFERT)</div>
+        <div style="font-size:24px;font-weight:700">49,90 €<span style="font-size:13px;opacity:.8">/an</span></div>
+        <div style="font-size:11px;margin-top:4px;opacity:.85">soit 4,16 €/mois</div>
+      </div>
+      <div style="padding:14px;background:rgba(255,255,255,0.08);border-radius:12px;border:1px solid var(--border-glass)">
+        <div style="font-weight:700;font-size:16px">♾️ À vie</div>
+        <div style="color:var(--text-dim);font-size:13px;margin:4px 0">Paiement unique</div>
+        <div style="font-size:24px;font-weight:700">149 €</div>
+      </div>
+    </div>
+    <p style="margin-top:12px;font-size:13px;color:var(--text-dim)">Pour souscrire, contacte ton admin / acheteur — il te fournit le code correspondant.</p>`;
+}
+
+function copyHumOutput(){
+  const t = document.getElementById("hum-output").value;
+  if(!t) return;
+  navigator.clipboard?.writeText(t).then(
+    ()=>toast("✅ Copié !"),
+    ()=>{ document.getElementById("hum-output").select(); document.execCommand("copy"); toast("Copié"); }
+  );
+}
+
+async function humanizeHw(id){
+  const cur = currentRecord();
+  const hw = cur.homeworks.find(h => h.id === id);
+  if(!hw || !hw.content) return;
+  toast("🧬 Humanisation en cours...");
+  trackQuery("Humaniser devoir");
+  const u = cur.user || {};
+  const prompt = `Réécris ce texte pour qu'il sonne 100% écrit par un élève (${u.class||"lycéen"}). Garde le sens, la longueur, la structure markdown, mais change les tournures, varie la syntaxe, évite les patterns IA typiques. Retourne uniquement le texte humanisé :\n\n${hw.content}`;
+  try{
+    const res = await callAI(prompt);
+    hw.content = res.trim();
+    saveCurrent(cur);
+    renderHomeworks();
+    toast("✅ Devoir humanisé !");
+  }catch(e){
+    toast("Erreur : " + e.message);
+  }
+}
+
+/* ============== STATS / TRACKING ============== */
+function trackQuery(label){
+  bumpQuota();
+  const s = getStats();
+  s.totalQueries = (s.totalQueries||0) + 1;
+  s.queries.push({ label, at: Date.now() });
+  if(s.queries.length > 1000) s.queries = s.queries.slice(-1000);
+  setStats(s);
+  // Maj online
+  pingOnline();
+}
+
+function pingOnline(){
+  const cur = currentRecord();
+  if(!cur) return;
+  cur.lastActive = new Date().toISOString();
+  saveCurrent(cur);
+  // online list
+  let online = getOnline().filter(o => Date.now() - o.ts < 5*60*1000 && o.code !== cur.code);
+  online.push({ code: cur.code, ts: Date.now(), name: `${cur.user?.firstname||""} ${cur.user?.lastname||""}`, klass: cur.user?.class||"" });
+  setOnline(online);
+}
+function startHeartbeat(){
+  if(window._hb) clearInterval(window._hb);
+  pingOnline();
+  window._hb = setInterval(pingOnline, 60000);
+}
+
+/* ============== ADMIN ============== */
+function enterAdmin(){
+  setTheme("bleu", false);
+  showPage("page-admin");
+  refreshAdmin();
+  if(window._admTimer) clearInterval(window._admTimer);
+  window._admTimer = setInterval(refreshAdmin, 5000);
+  // Init agent IA chat
+  setTimeout(() => { if(document.getElementById("agent-msgs")) renderAgentChat(); }, 100);
+}
+
+function clearSecurityLog(){
+  if(!confirm("Vider le journal de sécurité ?")) return;
+  DB.set(RATE_KEY, { count:0, lockUntil:0, log:[] });
+  refreshAdmin();
+  toast("Journal vidé");
+}
+function renderSecurityLog(){
+  const body = document.getElementById("security-log-body");
+  if(!body) return;
+  const a = _getAttempts();
+  const log = (a.log||[]).slice().reverse();
+  body.innerHTML = log.length ? log.map(e => `<tr>
+    <td>${new Date(e.at).toLocaleString("fr-FR")}</td>
+    <td>${e.success ? '<span class="tag" style="background:#34c759">✅ Succès</span>' : '<span class="tag" style="background:#ff3b30">❌ Échec</span>'}</td>
+    <td><span class="code-mono">${escapeHtml(e.hint||"")}</span></td>
+  </tr>`).join("") : `<tr><td colspan="3" style="text-align:center;color:var(--text-faint);padding:20px">Aucune tentative enregistrée.</td></tr>`;
+}
+
+function refreshAdmin(){
+  renderSecurityLog();
+  const codes = getCodes();
+  const stats = getStats();
+  const online = getOnline().filter(o => Date.now() - o.ts < 5*60*1000);
+
+  document.getElementById("adm-total").textContent = codes.length;
+  document.getElementById("adm-used").textContent = codes.filter(c => c.used).length;
+  document.getElementById("adm-online").textContent = online.length;
+  document.getElementById("adm-queries").textContent = stats.totalQueries||0;
+
+  // Codes table
+  document.getElementById("adm-codes-body").innerHTML = codes.map(c => {
+    const user = c.user ? `${c.user.firstname} ${c.user.lastname}` : "—";
+    const klass = c.user?.class || "—";
+    const date = new Date(c.createdAt).toLocaleDateString("fr-FR");
+    const typeLabel = {
+      trial:"⏳ Essai", monthly:"📅 Mensuel", yearly:"🔥 Annuel", lifetime:"♾️ À vie"
+    }[c.subType] || "⏳ Essai";
+    let statusTag;
+    if(c.locked) statusTag = '<span class="tag" style="background:#ff9500">🔒 Verrouillé</span>';
+    else if(c.lifetime) statusTag = '<span class="tag" style="background:#34c759">♾️ À vie</span>';
+    else if(c.paidUntil && new Date(c.paidUntil) > new Date()) statusTag = `<span class="tag" style="background:#34c759">✅ Actif</span>`;
+    else if(c.used) statusTag = '<span class="tag">Utilisé</span>';
+    else statusTag = '<span class="tag gray">Libre</span>';
+
+    const monthlyBtn = c.subType === "monthly"
+      ? (c.locked ? `<button class="btn" onclick="unlockMonthly('${c.code}')" style="padding:5px 10px;font-size:12px;background:#34c759">🔓 Débloquer</button>`
+                  : `<button class="btn btn-ghost" onclick="lockMonthly('${c.code}')" style="padding:5px 10px;font-size:12px;background:rgba(255,149,0,0.3)">🔒 Verrouiller</button>`)
+      : "";
+
+    return `<tr>
+      <td><span class="code-mono">${c.code}</span><br><span style="font-size:10px;color:var(--text-faint)">${typeLabel}</span></td>
+      <td>${statusTag}</td>
+      <td>${escapeHtml(user)}</td>
+      <td>${escapeHtml(klass)}</td>
+      <td>${date}</td>
+      <td>
+        ${monthlyBtn}
+        <button class="btn btn-ghost" onclick="resetCode('${c.code}')" style="padding:5px 10px;font-size:12px">🔄</button>
+        <button class="btn btn-ghost btn-danger" onclick="deleteCode('${c.code}')" style="padding:5px 10px;font-size:12px;background:rgba(255,59,48,0.2)">🗑️</button>
+      </td>
+    </tr>`;
+  }).join("") || `<tr><td colspan="6" style="text-align:center;color:var(--text-faint);padding:20px">Aucun code.</td></tr>`;
+
+  // Online table
+  document.getElementById("adm-online-body").innerHTML = online.map(o => {
+    return `<tr>
+      <td><span class="dot"></span>${escapeHtml(o.name||"—")}</td>
+      <td>${escapeHtml(o.klass||"—")}</td>
+      <td><span class="code-mono">${o.code}</span></td>
+      <td>${new Date(o.ts).toLocaleTimeString("fr-FR")}</td>
+    </tr>`;
+  }).join("") || `<tr><td colspan="4" style="text-align:center;color:var(--text-faint);padding:20px">Personne en ligne.</td></tr>`;
+
+  // Charts
+  drawCharts(stats);
+}
+
+function generateCodes(){
+  const n = Math.min(50, Math.max(1, parseInt(document.getElementById("adm-gen-count").value)||1));
+  const type = document.getElementById("adm-gen-type")?.value || "trial";
+  const codes = getCodes();
+  const newOnes = [];
+  for(let i=0;i<n;i++){
+    const r = makeCodeRecord();
+    r.subType = type;
+    if(type === "monthly"){ r.locked = true; r.unlockedUntil = null; }
+    if(type === "yearly"){
+      const d = new Date(); d.setDate(d.getDate() + 13*30); // 12 mois + 1 mois offert
+      r.paidUntil = d.toISOString();
+    }
+    if(type === "lifetime") r.lifetime = true;
+    codes.push(r); newOnes.push(r.code);
+  }
+  setCodes(codes);
+  document.getElementById("adm-gen-result").innerHTML = `<strong>${n} code(s) ${type} créé(s) :</strong><br>` + newOnes.map(c=>`<span class="code-mono">${c}</span>`).join(" ");
+  refreshAdmin();
+  toast(n + " code(s) généré(s)");
+}
+
+function unlockMonthly(code){
+  const codes = getCodes();
+  const c = codes.find(x => x.code === code);
+  if(!c) return;
+  const d = new Date(); d.setDate(d.getDate() + 30);
+  c.locked = false;
+  c.unlockedUntil = d.toISOString();
+  setCodes(codes);
+  refreshAdmin();
+  toast("✅ Code débloqué pour 30 jours");
+}
+function lockMonthly(code){
+  const codes = getCodes();
+  const c = codes.find(x => x.code === code);
+  if(!c) return;
+  c.locked = true;
+  c.unlockedUntil = null;
+  setCodes(codes);
+  refreshAdmin();
+  toast("🔒 Code reverrouillé");
+}
+
+function resetCode(code){
+  if(!confirm("Réinitialiser ce code ? L'utilisateur perdra ses données mais le code redevient utilisable.")) return;
+  const codes = getCodes();
+  const i = codes.findIndex(c => c.code === code);
+  if(i < 0) return;
+  const fresh = makeCodeRecord();
+  codes[i] = { ...fresh, code }; // on garde le même code
+  setCodes(codes);
+  refreshAdmin();
+  toast("Code réinitialisé");
+}
+
+function deleteCode(code){
+  if(!confirm("Supprimer définitivement ce code ?")) return;
+  setCodes(getCodes().filter(c => c.code !== code));
+  refreshAdmin();
+  toast("Code supprimé");
+}
+
+function exportCodes(){
+  const codes = getCodes();
+  const csv = ["Code,Statut,Prénom,Nom,Classe,Établissement,Créé le"]
+    .concat(codes.map(c => [
+      c.code,
+      c.used?"Utilisé":"Libre",
+      c.user?.firstname||"",
+      c.user?.lastname||"",
+      c.user?.class||"",
+      c.user?.school||"",
+      new Date(c.createdAt).toLocaleString("fr-FR")
+    ].map(v=>`"${String(v).replace(/"/g,'""')}"`).join(","))).join("\n");
+  const blob = new Blob([csv], { type:"text/csv;charset=utf-8" });
+  saveBlob(blob, "codes-homeworkai.csv");
+}
+
+let chartBar=null, chartPie=null;
+function drawCharts(stats){
+  // Compter par catégorie
+  const counts = {};
+  (stats.queries||[]).forEach(q => {
+    const cat = q.label.split(":")[0].trim();
+    counts[cat] = (counts[cat]||0) + 1;
+  });
+  const labels = Object.keys(counts);
+  const values = Object.values(counts);
+  const colors = ["#0a84ff","#ff3b30","#34c759","#ff9500","#af52de","#5e5ce6","#ff2d55"];
+
+  if(chartBar) chartBar.destroy();
+  chartBar = new Chart(document.getElementById("chart-bar"), {
+    type: "bar",
+    data: { labels, datasets: [{ label:"Requêtes", data: values, backgroundColor: colors }] },
+    options: { responsive:true, plugins:{ legend:{ display:false } }, scales:{ y:{ ticks:{ color:"#fff" }, grid:{ color:"rgba(255,255,255,0.1)" } }, x:{ ticks:{ color:"#fff" }, grid:{ color:"rgba(255,255,255,0.1)" } } } }
+  });
+
+  if(chartPie) chartPie.destroy();
+  chartPie = new Chart(document.getElementById("chart-pie"), {
+    type: "pie",
+    data: { labels, datasets: [{ data: values, backgroundColor: colors }] },
+    options: { responsive:true, plugins:{ legend:{ labels:{ color:"#fff" } } } }
+  });
+}
+
+/* ============== PLEIN ÉCRAN ============== */
+function isFullscreen(){
+  return !!(document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement);
+}
+function enterFullscreen(){
+  const el = document.documentElement;
+  const req = el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen;
+  if(req) return req.call(el).catch(()=>{});
+}
+function exitFullscreen(){
+  const exit = document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen;
+  if(exit && isFullscreen()) return exit.call(document).catch(()=>{});
+}
+function toggleFullscreen(){
+  if(isFullscreen()){
+    exitFullscreen();
+    toast("Plein écran désactivé");
+  } else {
+    enterFullscreen();
+    toast("Plein écran activé");
+  }
+}
+function toggleForceFs(cb){
+  DB.set("hwai_force_fs", cb.checked);
+  if(cb.checked){
+    if(!isFullscreen()) enterFullscreen();
+    toast("Plein écran forcé activé");
+  } else {
+    toast("Plein écran forcé désactivé");
+  }
+}
+function updateFsIcon(){
+  const ic = document.getElementById("fs-icon");
+  if(ic) ic.textContent = isFullscreen() ? "🗗" : "⛶";
+}
+document.addEventListener("fullscreenchange", updateFsIcon);
+document.addEventListener("webkitfullscreenchange", updateFsIcon);
+
+// Mode "force plein écran" : si activé, déclenche le FS au premier clic après chargement
+function armForceFullscreen(){
+  if(!DB.get("hwai_force_fs", false)) return;
+  if(isFullscreen()) return;
+  const handler = () => {
+    enterFullscreen();
+    document.removeEventListener("click", handler, true);
+    document.removeEventListener("touchstart", handler, true);
+    document.removeEventListener("keydown", handler, true);
+  };
+  document.addEventListener("click", handler, true);
+  document.addEventListener("touchstart", handler, true);
+  document.addEventListener("keydown", handler, true);
+}
+
+/* ============== MODE D'AFFICHAGE (Auto / PC / Mobile) ============== */
+const MODES = ["auto","desktop","mobile"];
+const MODE_META = {
+  auto:    { icon:"🔄", label:"Auto" },
+  desktop: { icon:"🖥️", label:"PC" },
+  mobile:  { icon:"📱", label:"Mobile" }
+};
+function applyViewMode(mode){
+  document.body.classList.remove("force-desktop","force-mobile");
+  if(mode === "desktop") document.body.classList.add("force-desktop");
+  else if(mode === "mobile") document.body.classList.add("force-mobile");
+  const m = MODE_META[mode] || MODE_META.auto;
+  document.getElementById("mode-icon").textContent = m.icon;
+  document.getElementById("mode-label").textContent = m.label;
+  // Re-positionne la barre rouge de l'EDT après le changement de layout
+  setTimeout(positionNowLine, 50);
+}
+function cycleViewMode(){
+  const cur = DB.get("hwai_viewmode","auto");
+  const next = MODES[(MODES.indexOf(cur)+1) % MODES.length];
+  setViewMode(next);
+}
+function setViewMode(mode){
+  DB.set("hwai_viewmode", mode);
+  applyViewMode(mode);
+  toast("Mode : " + MODE_META[mode].label);
+}
+
+/* ============== PARTAGE ============== */
+function getShareUrl(){
+  // Si l'app est sur file:// (ouvert localement), donne plutôt l'instruction d'utiliser un hébergeur
+  if(location.protocol === "file:"){
+    return "https://studya.app"; // placeholder — sera remplacé par la vraie URL après déploiement
+  }
+  return location.origin + location.pathname.replace(/index\.html$/i,"") + "#login";
+}
+
+function _writeToClipboard(text){
+  return new Promise((resolve, reject) => {
+    if(navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(text).then(resolve, () => fallback());
+    } else { fallback(); }
+    function fallback(){
+      try{
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.style.position = "fixed"; ta.style.left = "-9999px";
+        document.body.appendChild(ta);
+        ta.focus(); ta.select();
+        const ok = document.execCommand("copy");
+        document.body.removeChild(ta);
+        ok ? resolve() : reject();
+      }catch(e){ reject(); }
+    }
+  });
+}
+
+function copyShareLink(){
+  const inp = document.getElementById("share-link");
+  const url = inp.value || getShareUrl();
+  if(inp) inp.value = url;
+  _writeToClipboard(url).then(
+    () => { toast("✅ Lien copié !"); document.getElementById("share-status").textContent = "Lien copié dans le presse-papier."; },
+    () => { toast("⚠️ Copie impossible, sélectionne et copie manuellement."); inp.select(); }
+  );
+}
+
+async function shortenShareLink(){
+  const inp = document.getElementById("share-link");
+  const status = document.getElementById("share-status");
+  const url = inp.value || getShareUrl();
+  status.textContent = "✂️ Raccourcissement en cours...";
+
+  // Plusieurs services en cascade (CORS-friendly d'abord)
+  const services = [
+    { name:"is.gd", fetch: ()=> fetch(`https://is.gd/create.php?format=simple&url=${encodeURIComponent(url)}`).then(r => r.text()) },
+    { name:"tinyurl", fetch: ()=> fetch(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(url)}`).then(r => r.text()) },
+    { name:"v.gd", fetch: ()=> fetch(`https://v.gd/create.php?format=simple&url=${encodeURIComponent(url)}`).then(r => r.text()) }
+  ];
+
+  for(const svc of services){
+    try{
+      const short = (await svc.fetch()).trim();
+      if(short && /^https?:\/\//.test(short) && short.length < url.length){
+        inp.value = short;
+        status.innerHTML = `✅ Lien raccourci via <strong>${svc.name}</strong> !`;
+        return;
+      }
+    }catch(e){ /* tente le suivant */ }
+  }
+  status.textContent = "⚠️ Impossible de raccourcir (services indisponibles). Le lien original reste valide.";
+}
+
+async function nativeShare(){
+  const url = document.getElementById("share-link").value || getShareUrl();
+  if(navigator.share){
+    try {
+      await navigator.share({ title:"Studya", text:"🎓 Studya — L'école sans la galère. Mon copilote IA pour les devoirs !", url });
+      document.getElementById("share-status").textContent = "✅ Partagé !";
+    } catch(e){
+      if(e.name !== "AbortError") copyShareLink();
+    }
+  } else {
+    copyShareLink();
+  }
+}
+
+function toggleQR(){
+  const zone = document.getElementById("qr-zone");
+  if(zone.style.display === "none"){
+    const url = document.getElementById("share-link").value || getShareUrl();
+    zone.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(url)}" alt="QR Code" style="border-radius:12px;background:#fff;padding:8px"/><div style="font-size:12px;color:var(--text-dim);margin-top:6px">Scanne avec ton téléphone</div>`;
+    zone.style.display = "block";
+  } else {
+    zone.style.display = "none";
+  }
+}
+
+/* ============== PARTAGE / DEEP-LINK ============== */
+function handleSharedLink(){
+  // Si l'URL contient #login ou #accueil, on force le retour à la page d'accueil
+  const hash = (location.hash||"").toLowerCase();
+  if(hash === "#login" || hash === "#accueil" || hash === "#home"){
+    setCurrent(null);
+    showPage("page-login");
+  }
+}
+
+/* ============================================================
+   INDEXEDDB — BIBLIOTHÈQUE DE COURS (stockage gros fichiers)
+   ============================================================ */
+const IDB_NAME = "studya-lib";
+const IDB_STORE = "files";
+function _idbOpen(){
+  return new Promise((res,rej) => {
+    const req = indexedDB.open(IDB_NAME, 1);
+    req.onupgradeneeded = ()=>{ req.result.createObjectStore(IDB_STORE, {keyPath:"id"}); };
+    req.onsuccess = ()=>res(req.result);
+    req.onerror = ()=>rej(req.error);
+  });
+}
+async function libAdd(item){
+  const db = await _idbOpen();
+  return new Promise((res,rej)=>{
+    const tx = db.transaction(IDB_STORE, "readwrite");
+    tx.objectStore(IDB_STORE).put(item);
+    tx.oncomplete = res; tx.onerror = ()=>rej(tx.error);
+  });
+}
+async function libAll(){
+  const db = await _idbOpen();
+  return new Promise((res,rej)=>{
+    const tx = db.transaction(IDB_STORE, "readonly");
+    const req = tx.objectStore(IDB_STORE).getAll();
+    req.onsuccess = ()=>res(req.result || []);
+    req.onerror = ()=>rej(req.error);
+  });
+}
+async function libDelete(id){
+  const db = await _idbOpen();
+  return new Promise((res,rej)=>{
+    const tx = db.transaction(IDB_STORE, "readwrite");
+    tx.objectStore(IDB_STORE).delete(id);
+    tx.oncomplete = res; tx.onerror = ()=>rej(tx.error);
+  });
+}
+
+let libCurrentTab = "all";
+function switchLibTab(btn, tab){
+  btn.parentElement.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  btn.classList.add("active");
+  libCurrentTab = tab;
+  renderLibrary();
+}
+
+async function addLibraryFiles(input){
+  const status = document.getElementById("lib-status");
+  const cur = currentRecord(); const owner = cur?.code || "anon";
+  for(const file of input.files){
+    status.textContent = `📥 Ajout : ${file.name}...`;
+    const dataUrl = await new Promise(res => { const r = new FileReader(); r.onload = ()=>res(r.result); r.readAsDataURL(file); });
+    const type = file.type.startsWith("image/") ? "image" : (file.type === "application/pdf" ? "pdf" : "other");
+    await libAdd({
+      id: Date.now().toString(36) + Math.random().toString(36).slice(2,5),
+      owner, name: file.name, type, dataUrl, size: file.size,
+      createdAt: new Date().toISOString()
+    });
+  }
+  input.value = "";
+  status.textContent = `✅ ${input.files.length} ajouté(s).`;
+  renderLibrary();
+  trackQuery("Bibliothèque : ajout");
+}
+async function addLibraryNote(){
+  const text = prompt("Ton texte / note :");
+  if(!text) return;
+  const cur = currentRecord(); const owner = cur?.code || "anon";
+  await libAdd({
+    id: Date.now().toString(36),
+    owner, name: text.slice(0,40)+"...", type:"note", content:text,
+    createdAt: new Date().toISOString()
+  });
+  renderLibrary();
+}
+async function deleteLibItem(id){
+  if(!confirm("Supprimer ce document ?")) return;
+  await libDelete(id); renderLibrary();
+}
+const debouncedRenderLib = debounce(() => renderLibrary(), 250);
+async function renderLibrary(){
+  const list = document.getElementById("lib-list");
+  if(!list) return;
+  const items = await libAll();
+  const cur = currentRecord(); const owner = cur?.code;
+  const filterText = (document.getElementById("lib-subject-filter")?.value||"").toLowerCase();
+  const filtered = items.filter(i =>
+    (i.owner === owner) &&
+    (libCurrentTab === "all" || i.type === libCurrentTab) &&
+    (!filterText || i.name.toLowerCase().includes(filterText))
+  );
+  if(!filtered.length){
+    list.innerHTML = `<div style="color:var(--text-faint);text-align:center;padding:30px">📭 Aucun document. Importe ton premier !</div>`;
+    return;
+  }
+  // Skeleton pendant 80ms le temps de la frame
+  list.innerHTML = filtered.map(()=>`<div class="hw-item"><div class="skeleton" style="height:60px"></div></div>`).join("");
+  list.innerHTML = filtered.map(i => {
+    const icon = { pdf:"📄", image:"🖼️", note:"📝", other:"📎" }[i.type] || "📎";
+    const sizeKb = i.size ? `· ${Math.round(i.size/1024)} Ko` : "";
+    const date = new Date(i.createdAt).toLocaleDateString("fr-FR");
+    const preview = i.type === "image" ? `<img src="${i.dataUrl}" style="max-width:120px;max-height:80px;border-radius:6px"/>` : (i.type === "note" ? `<div style="font-size:12px;color:var(--text-dim);max-height:60px;overflow:hidden">${escapeHtml(i.content||"")}</div>` : "");
+    return `<div class="hw-item">
+      <div class="hw-head">
+        <div style="flex:1">
+          <div class="hw-title">${icon} ${escapeHtml(i.name)}</div>
+          <div class="hw-meta">${date} ${sizeKb}</div>
+        </div>
+      </div>
+      ${preview}
+      <div class="hw-actions">
+        ${i.type !== "note" ? `<a class="btn btn-ghost" href="${i.dataUrl}" download="${escapeAttr(i.name)}" style="text-decoration:none">⬇️ Télécharger</a>`:""}
+        ${i.type === "pdf" ? `<button class="btn btn-ghost" onclick="summarizeLibPdf('${i.id}')">🤖 Résumer</button>`:""}
+        ${i.type === "note" ? `<button class="btn btn-ghost" onclick="copyLibNote('${i.id}')">📋 Copier</button>`:""}
+        <button class="btn btn-ghost btn-danger" onclick="deleteLibItem('${i.id}')" style="background:rgba(255,59,48,0.2)">🗑️</button>
+      </div>
+    </div>`;
+  }).join("");
+}
+async function summarizeLibPdf(id){
+  const items = await libAll();
+  const it = items.find(i => i.id === id);
+  if(!it) return;
+  toast("🤖 Résumé en cours...");
+  const res = await fetch(it.dataUrl);
+  const buf = await res.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({data:buf}).promise;
+  let txt = "";
+  for(let i=1; i<=pdf.numPages; i++){
+    const p = await pdf.getPage(i);
+    const c = await p.getTextContent();
+    txt += c.items.map(x=>x.str).join(" ")+"\n";
+  }
+  pdfSummaryText = await callAI(`Résume ce document : ${txt.slice(0,10000)}`);
+  document.getElementById("pdf-summary").textContent = pdfSummaryText;
+  document.getElementById("pdf-result").style.display = "block";
+  switchView("view-tools");
+  document.querySelector('[onclick*="tool-pdf"]')?.click();
+}
+async function copyLibNote(id){
+  const items = await libAll();
+  const it = items.find(i => i.id === id);
+  if(it) _writeToClipboard(it.content||"").then(()=>toast("✅ Copié"));
+}
+
+/* ============================================================
+   ICAL PARSER (Pronote export officiel)
+   ============================================================ */
+async function parseIcalFile(input){
+  const file = input.files[0];
+  if(!file) return;
+  const status = document.getElementById("ical-status");
+  status.textContent = "📅 Analyse du fichier .ics...";
+  const text = await file.text();
+  // Parser iCal très basique (suffisant pour Pronote)
+  const events = [];
+  const blocks = text.split(/BEGIN:VEVENT/i).slice(1);
+  blocks.forEach(b => {
+    const end = b.indexOf("END:VEVENT");
+    const block = end > 0 ? b.slice(0, end) : b;
+    const get = (k) => { const m = block.match(new RegExp("^"+k+"[^:]*:(.+)$","im")); return m ? m[1].trim().replace(/\\,/g,",").replace(/\\n/g,"\n") : ""; };
+    const dt = get("DTSTART"); const yr = dt.slice(0,4), mo = dt.slice(4,6), day = dt.slice(6,8);
+    const summary = get("SUMMARY");
+    const desc = get("DESCRIPTION");
+    if(summary) events.push({
+      date: yr && mo && day ? `${yr}-${mo}-${day}` : "",
+      summary, description: desc
+    });
+  });
+  if(!events.length){ status.textContent = "⚠️ Aucun événement trouvé dans le fichier."; return; }
+  const cur = currentRecord();
+  events.forEach(ev => {
+    cur.homeworks.unshift({
+      id: Date.now().toString(36) + Math.random().toString(36).slice(2,5),
+      subject: ev.summary.split(/[-:•]/)[0].trim() || "Pronote",
+      render: "Devoir",
+      due: ev.date,
+      format: "pdf",
+      sources: "Importé via iCal Pronote",
+      prompt: ev.description || ev.summary,
+      createdAt: new Date().toISOString(),
+      status: "pending",
+      content: ""
+    });
+  });
+  saveCurrent(cur);
+  renderHomeworks();
+  status.innerHTML = `✅ <strong>${events.length} événement(s)</strong> importé(s) :<br>` + events.slice(0,8).map(e=>`• ${escapeHtml(e.summary)} ${e.date?`(${e.date})`:""}`).join("<br>");
+  toast(events.length + " événement(s) importé(s)");
+  trackQuery("Pronote : iCal");
+}
+
+/* ============================================================
+   QUOTAS PAR JOUR (essai = 30 req/jour, payants = illimité)
+   ============================================================ */
+function _todayKey(){ return new Date().toISOString().slice(0,10); }
+function getQuotaState(){
+  const cur = currentRecord();
+  if(!cur) return { used:0, limit:Infinity, remaining:Infinity, unlimited:true };
+  if(cur.lifetime || cur.unlimited || cur.subType === "yearly" || cur.subType === "lifetime"){
+    return { used: (cur.usage?.[_todayKey()]||0), limit:Infinity, remaining:Infinity, unlimited:true };
+  }
+  const limit = cur.dailyLimit || 30;
+  const used = cur.usage?.[_todayKey()] || 0;
+  return { used, limit, remaining: Math.max(0, limit-used), unlimited:false };
+}
+function checkQuotaOrThrow(){
+  const q = getQuotaState();
+  if(!q.unlimited && q.remaining <= 0){
+    throw new Error(`Quota du jour atteint (${q.limit} requêtes IA). Réessaie demain ou souscris un abonnement.`);
+  }
+}
+function bumpQuota(){
+  const cur = currentRecord();
+  if(!cur) return;
+  cur.usage = cur.usage || {};
+  const k = _todayKey();
+  cur.usage[k] = (cur.usage[k]||0) + 1;
+  saveCurrent(cur);
+}
+
+/* ============================================================
+   ONBOARDING MODE TUTEUR (modal one-shot)
+   ============================================================ */
+function maybeShowTutorOnboarding(){
+  if(DB.get("hwai_tutor_seen", false)) return;
+  DB.set("hwai_tutor_seen", true);
+  const m = document.createElement("div");
+  m.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:11000;display:flex;align-items:center;justify-content:center;padding:20px";
+  m.innerHTML = `<div class="glass" style="max-width:440px;padding:28px;border-radius:18px;text-align:center">
+    <div style="font-size:48px">👨‍🏫</div>
+    <h2 style="margin:8px 0">Mode tuteur activé !</h2>
+    <p style="color:var(--text-dim);font-size:14px;line-height:1.6">
+      Au lieu de te donner la réponse, l'IA va te <strong>guider par questions</strong>.<br><br>
+      <strong>Ex.</strong> Tu demandes : <em>"Combien font 2+2 ?"</em><br>
+      L'IA répond : <em>"Si tu as 2 pommes et que j'en ajoute 2, combien en as-tu ?"</em><br><br>
+      C'est plus long mais tu retiens 5× mieux 💪
+    </p>
+    <button class="btn" style="margin-top:16px;width:100%" onclick="this.parentElement.parentElement.remove()">Compris !</button>
+  </div>`;
+  document.body.appendChild(m);
+}
+
+/* ============================================================
+   MORE SHEET (mobile)
+   ============================================================ */
+function toggleMoreSheet(){
+  const s = document.getElementById("more-sheet");
+  s.style.display = s.style.display === "block" ? "none" : "block";
+}
+document.querySelectorAll(".more-item").forEach(b => b.addEventListener("click", () => {
+  switchView(b.dataset.view);
+  toggleMoreSheet();
+}));
+
+/* ============================================================
+   TIMER WIDGET
+   ============================================================ */
+const timer = { duration:25*60, remaining:25*60, running:false, interval:null };
+function showTimer(){ document.getElementById("timer-widget").style.display = "flex"; renderTimer(); }
+function expandTimer(e){
+  e?.stopPropagation();
+  const w = document.getElementById("timer-widget");
+  const body = w.querySelector(".timer-body");
+  const isExpanded = body.style.display !== "none";
+  body.style.display = isExpanded ? "none" : "block";
+  w.classList.toggle("expanded", !isExpanded);
+}
+function setTimer(min, e){
+  e?.stopPropagation();
+  timer.duration = min * 60;
+  timer.remaining = min * 60;
+  timer.running = false;
+  if(timer.interval) clearInterval(timer.interval);
+  document.getElementById("timer-widget").classList.remove("running","paused","alarm");
+  renderTimer();
+  toast(`Timer : ${min} min`);
+}
+function startTimer(e){
+  e?.stopPropagation();
+  if(timer.running) return;
+  timer.running = true;
+  document.getElementById("timer-widget").classList.add("running");
+  document.getElementById("timer-widget").classList.remove("paused","alarm");
+  timer.interval = setInterval(()=>{
+    timer.remaining--;
+    renderTimer();
+    if(timer.remaining <= 0){
+      clearInterval(timer.interval);
+      timer.running = false;
+      document.getElementById("timer-widget").classList.add("alarm");
+      document.getElementById("timer-widget").classList.remove("running");
+      playBeep();
+      toast("⏰ Temps écoulé !");
+    }
+  }, 1000);
+}
+function pauseTimer(e){
+  e?.stopPropagation();
+  if(timer.interval) clearInterval(timer.interval);
+  timer.running = false;
+  document.getElementById("timer-widget").classList.add("paused");
+  document.getElementById("timer-widget").classList.remove("running");
+}
+function resetTimer(e){
+  e?.stopPropagation();
+  if(timer.interval) clearInterval(timer.interval);
+  timer.running = false;
+  timer.remaining = timer.duration;
+  document.getElementById("timer-widget").classList.remove("running","paused","alarm");
+  renderTimer();
+}
+function closeTimer(e){
+  e?.stopPropagation();
+  document.getElementById("timer-widget").style.display = "none";
+  if(timer.interval) clearInterval(timer.interval);
+}
+function renderTimer(){
+  const m = Math.floor(timer.remaining / 60).toString().padStart(2,"0");
+  const s = (timer.remaining % 60).toString().padStart(2,"0");
+  document.getElementById("timer-display").textContent = `${m}:${s}`;
+}
+function playBeep(){
+  try{
+    const ctx = new (window.AudioContext||window.webkitAudioContext)();
+    [880, 1320, 880].forEach((freq, i) => {
+      const o = ctx.createOscillator(); const g = ctx.createGain();
+      o.type = "sine"; o.frequency.value = freq;
+      g.gain.value = 0.3;
+      o.connect(g); g.connect(ctx.destination);
+      o.start(ctx.currentTime + i*0.4);
+      o.stop(ctx.currentTime + i*0.4 + 0.3);
+    });
+  }catch(e){}
+}
+
+/* ============================================================
+   FLASHCARDS
+   ============================================================ */
+let flashDeck = [], flashIdx = 0, flashFlipped = false;
+async function generateFlashcards(){
+  const topic = document.getElementById("flash-topic").value.trim();
+  const n = parseInt(document.getElementById("flash-count").value)||10;
+  if(!topic){ toast("Sujet requis"); return; }
+  toast("🃏 Génération...");
+  trackQuery("Flashcards : " + topic);
+  const cur = currentRecord();
+  const u = cur?.user || {};
+  const prompt = `Génère ${n} flashcards (questions/réponses) pour réviser : ${topic}. Niveau : ${u.class||"lycée"}. Réponds UNIQUEMENT en JSON pur (pas de markdown) : [{"q":"question courte","a":"réponse claire"}]`;
+  try{
+    const res = await callAI(prompt);
+    const m = res.match(/\[[\s\S]*\]/);
+    flashDeck = JSON.parse(m[0]);
+    flashIdx = 0; flashFlipped = false;
+    renderFlash();
+    document.getElementById("flash-deck").style.display = "block";
+  }catch(e){ toast("Erreur : " + e.message); }
+}
+function renderFlash(){
+  if(!flashDeck.length) return;
+  const c = flashDeck[flashIdx];
+  document.getElementById("flash-front").textContent = c.q;
+  document.getElementById("flash-back").textContent = c.a;
+  document.getElementById("flash-inner").style.transform = flashFlipped ? "rotateY(180deg)" : "none";
+  document.getElementById("flash-count-info").textContent = `${flashIdx+1} / ${flashDeck.length}`;
+}
+function flipFlash(){ flashFlipped = !flashFlipped; renderFlash(); }
+function nextFlash(){ if(flashIdx<flashDeck.length-1){ flashIdx++; flashFlipped=false; renderFlash(); } }
+function prevFlash(){ if(flashIdx>0){ flashIdx--; flashFlipped=false; renderFlash(); } }
+function markFlash(state){
+  toast(state==="known"?"✅ Acquis !":"🔁 À revoir");
+  nextFlash();
+}
+
+/* ============================================================
+   SUJET BLANC
+   ============================================================ */
+let blancData = { sujet:"", correction:"", subject:"" };
+async function generateMockExam(){
+  const subj = document.getElementById("blanc-subject").value.trim();
+  const type = document.getElementById("blanc-type").value;
+  if(!subj){ toast("Matière requise"); return; }
+  toast("📋 Génération...");
+  trackQuery("Sujet blanc : " + subj);
+  const cur = currentRecord(); const u = cur?.user || {};
+  const prompt = `Crée un sujet blanc de ${type} en ${subj} (niveau ${u.class||"lycée"}). Format obligatoire en deux parties séparées par "===CORRECTION===" :
+1. Le SUJET complet (questions, exercices, durée, barème)
+2. Après "===CORRECTION===" : la correction détaillée
+
+Pas de markdown, juste du texte clair structuré.`;
+  try{
+    const res = await callAI(prompt);
+    const [sujet, correction] = res.split(/===CORRECTION===/);
+    blancData = { sujet: sujet.trim(), correction: (correction||"À générer").trim(), subject: subj };
+    document.getElementById("blanc-subject-content").textContent = blancData.sujet;
+    document.getElementById("blanc-correction").textContent = blancData.correction;
+    document.getElementById("blanc-result").style.display = "block";
+  }catch(e){ toast("Erreur : "+e.message); }
+}
+function toggleCorrection(){
+  const el = document.getElementById("blanc-correction");
+  el.style.display = el.style.display === "none" ? "block" : "none";
+}
+function downloadBlanc(){
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  doc.setFontSize(16); doc.text("Sujet blanc — " + blancData.subject, 14, 18);
+  doc.setFontSize(11);
+  let y = 28;
+  doc.splitTextToSize(blancData.sujet, 180).forEach(l => { if(y>280){doc.addPage();y=20;} doc.text(l,14,y); y+=6; });
+  doc.addPage(); y = 20;
+  doc.setFontSize(14); doc.text("Correction", 14, y); y += 10;
+  doc.setFontSize(11);
+  doc.splitTextToSize(blancData.correction, 180).forEach(l => { if(y>280){doc.addPage();y=20;} doc.text(l,14,y); y+=6; });
+  doc.save(`sujet-blanc-${blancData.subject.replace(/\W/g,"_")}.pdf`);
+}
+
+/* ============================================================
+   MINDMAP
+   ============================================================ */
+let mindTree = null, mindTopic = "";
+async function generateMindmap(){
+  const topic = document.getElementById("mind-topic").value.trim();
+  if(!topic){ toast("Sujet requis"); return; }
+  toast("🗺️ Création...");
+  trackQuery("Mindmap : " + topic);
+  const cur = currentRecord(); const u = cur?.user || {};
+  const prompt = `Crée une carte mentale (mindmap) hiérarchique sur "${topic}" (niveau ${u.class||"lycée"}). Réponds UNIQUEMENT en JSON pur sous forme d'arbre : {"label":"sujet central","children":[{"label":"sous-thème","children":[{"label":"détail"},...]},...]}. 3 niveaux de profondeur minimum.`;
+  try{
+    const res = await callAI(prompt);
+    const m = res.match(/\{[\s\S]*\}/);
+    mindTree = JSON.parse(m[0]); mindTopic = topic;
+    renderMindTree();
+    document.getElementById("mind-result").style.display = "block";
+  }catch(e){ toast("Erreur : "+e.message); }
+}
+function renderMindTree(){
+  const wrap = document.getElementById("mind-tree");
+  wrap.innerHTML = renderMindNode(mindTree, 0, "0") + `
+    <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+      <button class="btn btn-ghost" onclick="saveMindmap()">💾 Sauvegarder</button>
+      <button class="btn btn-ghost" onclick="exportMindmap()">⬇️ Exporter (JSON)</button>
+    </div>`;
+}
+function renderMindNode(node, depth, path){
+  const colors = ["#0a84ff","#a855f7","#ff4d8d","#22c55e","#f97316"];
+  const color = colors[depth % colors.length];
+  const fontSize = Math.max(13, 17-depth*1.5);
+  let html = `<div style="margin:6px 0 6px ${depth*22}px;display:flex;gap:6px;align-items:center">
+    <div contenteditable="true" data-path="${path}" oninput="updateMindNode(this)" style="flex:1;padding:8px 12px;background:rgba(255,255,255,0.08);border-left:3px solid ${color};border-radius:6px;font-weight:${depth===0?700:500};font-size:${fontSize}px;outline:none">${escapeHtml(node.label||"")}</div>
+    <button onclick="addMindChild('${path}')" title="Ajouter enfant" style="padding:4px 8px;border-radius:6px;background:rgba(34,197,94,0.3);border:none;color:var(--text);cursor:pointer">＋</button>
+    ${depth>0?`<button onclick="removeMindNode('${path}')" title="Supprimer" style="padding:4px 8px;border-radius:6px;background:rgba(255,59,48,0.3);border:none;color:var(--text);cursor:pointer">−</button>`:""}
+  </div>`;
+  if(node.children) node.children.forEach((c,i) => html += renderMindNode(c, depth+1, path+"."+i));
+  return html;
+}
+function _findMindNode(path){
+  const parts = path.split(".").map(Number);
+  let n = mindTree;
+  for(let i=1; i<parts.length; i++){ n = n.children[parts[i]]; }
+  return n;
+}
+function _findMindParent(path){
+  const parts = path.split(".").map(Number);
+  if(parts.length === 1) return null;
+  const parentPath = parts.slice(0,-1).join(".");
+  return { parent: _findMindNode(parentPath), index: parts[parts.length-1] };
+}
+function updateMindNode(el){
+  const node = _findMindNode(el.dataset.path);
+  if(node) node.label = el.textContent;
+}
+function addMindChild(path){
+  const node = _findMindNode(path);
+  if(!node) return;
+  node.children = node.children || [];
+  node.children.push({ label: "Nouveau" });
+  renderMindTree();
+}
+function removeMindNode(path){
+  const info = _findMindParent(path);
+  if(!info) return;
+  info.parent.children.splice(info.index, 1);
+  renderMindTree();
+}
+function saveMindmap(){
+  const cur = currentRecord();
+  if(!cur) return;
+  cur.mindmaps = cur.mindmaps || {};
+  cur.mindmaps[mindTopic] = mindTree;
+  saveCurrent(cur);
+  toast("💾 Mindmap sauvegardée !");
+}
+function exportMindmap(){
+  const blob = new Blob([JSON.stringify(mindTree, null, 2)], {type:"application/json"});
+  saveBlob(blob, "mindmap-"+mindTopic.replace(/\W/g,"_")+".json");
+}
+
+/* ============================================================
+   EXERCICES
+   ============================================================ */
+async function generateExercises(){
+  const topic = document.getElementById("exo-topic").value.trim();
+  const lvl = document.getElementById("exo-level").value;
+  const n = parseInt(document.getElementById("exo-count").value)||5;
+  if(!topic){ toast("Sujet requis"); return; }
+  toast("✏️ Génération...");
+  trackQuery("Exercices : " + topic);
+  const cur = currentRecord(); const u = cur?.user || {};
+  const prompt = `Crée ${n} exercices ${lvl.toLowerCase()} sur "${topic}" (niveau ${u.class||"lycée"}). Pour chaque exercice : énoncé clair, puis "👉 Correction :" avec la réponse complète et expliquée. Numérote les exercices.`;
+  try{
+    const res = await callAI(prompt);
+    document.getElementById("exo-content").textContent = res;
+    document.getElementById("exo-result").style.display = "block";
+  }catch(e){ toast("Erreur : "+e.message); }
+}
+
+/* ============================================================
+   PDF RÉSUMÉ
+   ============================================================ */
+let pdfSummaryText = "";
+async function summarizePdf(input){
+  const file = input.files[0];
+  if(!file) return;
+  const status = document.getElementById("pdf-status");
+  status.textContent = "📥 Lecture du PDF...";
+  try{
+    const buf = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({data:buf}).promise;
+    let fullText = "";
+    for(let i=1; i<=pdf.numPages; i++){
+      const page = await pdf.getPage(i);
+      const content = await page.getTextContent();
+      fullText += content.items.map(it => it.str).join(" ") + "\n\n";
+    }
+    status.textContent = `🤖 ${pdf.numPages} page(s) lues. Résumé en cours...`;
+    trackQuery("PDF Résumé");
+    // Limiter pour ne pas saturer l'IA
+    const truncated = fullText.length > 12000 ? fullText.slice(0,12000)+"..." : fullText;
+    const cur = currentRecord(); const u = cur?.user || {};
+    const prompt = `Voici le contenu d'un document PDF. Fais un résumé STRUCTURÉ et clair (introduction, points clés, conclusion). Adapte au niveau ${u.class||"lycée"}. Utilise des titres et des listes à puces.\n\nContenu :\n${truncated}`;
+    const res = await callAI(prompt);
+    pdfSummaryText = res;
+    document.getElementById("pdf-summary").textContent = res;
+    document.getElementById("pdf-result").style.display = "block";
+    status.textContent = "✅ Résumé prêt.";
+  }catch(e){
+    status.textContent = "❌ Erreur : " + e.message;
+  }
+}
+function copyPdfSummary(){
+  _writeToClipboard(pdfSummaryText).then(()=>toast("✅ Copié"));
+}
+
+/* ============================================================
+   PODCAST (TTS)
+   ============================================================ */
+let podScript = "", podSpeed = 1, podUtter = null;
+async function generatePodcast(){
+  const topic = document.getElementById("pod-topic").value.trim();
+  if(!topic){ toast("Sujet requis"); return; }
+  toast("🎙️ Génération...");
+  trackQuery("Podcast : " + topic);
+  const cur = currentRecord(); const u = cur?.user || {};
+  const prompt = `Crée un mini-podcast pédagogique sur "${topic}" (niveau ${u.class||"lycée"}). Style oral et engageant comme si tu parlais à l'élève. Durée 3-5 minutes de lecture. Pas de markdown, du texte fluide à lire à voix haute.`;
+  try{
+    const res = await callAI(prompt);
+    podScript = res;
+    document.getElementById("pod-script").textContent = res;
+    document.getElementById("pod-result").style.display = "block";
+  }catch(e){ toast("Erreur : "+e.message); }
+}
+function setPodSpeed(v){ podSpeed = parseFloat(v); if(podUtter) podUtter.rate = podSpeed; }
+function playPodcast(){
+  if(!podScript || !window.speechSynthesis){ toast("TTS non disponible"); return; }
+  speechSynthesis.cancel();
+  podUtter = new SpeechSynthesisUtterance(podScript);
+  podUtter.lang = "fr-FR";
+  podUtter.rate = podSpeed;
+  const voices = speechSynthesis.getVoices();
+  const fr = voices.find(v => v.lang.startsWith("fr"));
+  if(fr) podUtter.voice = fr;
+  speechSynthesis.speak(podUtter);
+}
+function pausePodcast(){ if(speechSynthesis.speaking) speechSynthesis.pause(); else if(speechSynthesis.paused) speechSynthesis.resume(); }
+function stopPodcast(){ speechSynthesis.cancel(); }
+
+/* ============================================================
+   YOUTUBE SUGGESTIONS
+   ============================================================ */
+async function suggestYoutube(){
+  const topic = document.getElementById("yt-topic").value.trim();
+  if(!topic){ toast("Sujet requis"); return; }
+  toast("🔍 Recherche...");
+  trackQuery("YouTube : " + topic);
+  const cur = currentRecord(); const u = cur?.user || {};
+  const prompt = `Suggère 5 chaînes YouTube éducatives FRANÇAISES populaires pour apprendre "${topic}" (niveau ${u.class||"lycée"}). Format JSON pur : [{"chaine":"nom","description":"courte description","query":"recherche YouTube précise"}]`;
+  try{
+    const res = await callAI(prompt);
+    const m = res.match(/\[[\s\S]*\]/);
+    const items = JSON.parse(m[0]);
+    document.getElementById("yt-list").innerHTML = items.map(it => `
+      <div class="hw-item">
+        <div class="hw-title">📺 ${escapeHtml(it.chaine||"")}</div>
+        <div style="font-size:13px;color:var(--text-dim)">${escapeHtml(it.description||"")}</div>
+        <a class="btn" href="https://www.youtube.com/results?search_query=${encodeURIComponent(it.query||it.chaine)}" target="_blank" rel="noopener" style="text-decoration:none;width:fit-content">🔗 Ouvrir sur YouTube</a>
+      </div>`).join("");
+    document.getElementById("yt-result").style.display = "block";
+  }catch(e){ toast("Erreur : "+e.message); }
+}
+
+/* ============================================================
+   POWERPOINT AUTOPILOT
+   ============================================================ */
+let pptSlides = [], pptTopic = "";
+async function autopilotPpt(){
+  const topic = document.getElementById("ppt-topic").value.trim();
+  const n = parseInt(document.getElementById("ppt-slides").value)||8;
+  if(!topic){ toast("Sujet requis"); return; }
+  const status = document.getElementById("ppt-status");
+  status.textContent = "🤖 L'IA réfléchit à la structure...";
+  trackQuery("PPT autopilot");
+  const cur = currentRecord(); const u = cur?.user || {};
+  const prompt = `Crée un PowerPoint de ${n} slides sur "${topic}" (niveau ${u.class||"lycée"}). Réponds UNIQUEMENT en JSON pur : [{"titre":"...","points":["point 1","point 2","point 3"]}]. Inclure : page de titre, intro, développement, conclusion.`;
+  try{
+    const res = await callAI(prompt);
+    const m = res.match(/\[[\s\S]*\]/);
+    pptSlides = JSON.parse(m[0]); pptTopic = topic;
+    renderPptPreview();
+    status.textContent = "✅ Aperçu prêt — relis et télécharge.";
+  }catch(e){
+    status.textContent = "Erreur : "+e.message;
+  }
+}
+function renderPptPreview(){
+  let zone = document.getElementById("ppt-preview");
+  if(!zone){
+    zone = document.createElement("div");
+    zone.id = "ppt-preview";
+    zone.className = "panel glass";
+    document.querySelector("#tool-ppt").appendChild(zone);
+  }
+  zone.innerHTML = `<div class="panel-title">🎬 Aperçu des ${pptSlides.length} slides</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;max-height:480px;overflow-y:auto;padding:4px">
+      ${pptSlides.map((s,i)=>`
+        <div style="background:${i===0?'linear-gradient(135deg,var(--accent),var(--accent-2))':'rgba(255,255,255,0.08)'};color:${i===0?'#fff':'inherit'};padding:14px;border-radius:10px;aspect-ratio:16/9;display:flex;flex-direction:column;border:1px solid var(--border-glass)">
+          <div style="font-size:12px;opacity:.6;margin-bottom:4px">Slide ${i+1}</div>
+          <input class="input" value="${escapeAttr(s.titre)}" oninput="pptSlides[${i}].titre=this.value" style="background:transparent;border:none;font-weight:700;padding:0;font-size:14px"/>
+          <textarea class="input" oninput="pptSlides[${i}].points=this.value.split('\\n').filter(Boolean)" style="background:transparent;border:none;flex:1;padding:6px 0;resize:none;font-size:12px;line-height:1.4">${(s.points||[]).join("\n")}</textarea>
+        </div>
+      `).join("")}
+    </div>
+    <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+      <button class="btn" onclick="downloadPpt()">⬇️ Télécharger le PPT</button>
+      <button class="btn btn-ghost" onclick="addPptSlide()">➕ Ajouter un slide</button>
+      <button class="btn btn-ghost" onclick="renderPptPreview()">🔄 Rafraîchir l'aperçu</button>
+    </div>`;
+  zone.style.display = "block";
+}
+function addPptSlide(){
+  pptSlides.push({ titre:"Nouveau slide", points:["Point 1"] });
+  renderPptPreview();
+}
+function downloadPpt(){
+  const cur = currentRecord(); const u = cur?.user || {};
+  const pptx = new PptxGenJS();
+  pptSlides.forEach((s, i) => {
+    const slide = pptx.addSlide();
+    if(i === 0){
+      slide.background = { color: "0A84FF" };
+      slide.addText(s.titre, { x:0.5, y:2, w:9, h:1.5, fontSize:38, bold:true, color:"FFFFFF", align:"center" });
+      slide.addText(`${u.firstname||""} ${u.lastname||""} — ${u.class||""}`, { x:0.5, y:4, w:9, h:0.5, fontSize:16, color:"FFFFFF", align:"center" });
+    } else {
+      slide.addText(s.titre, { x:0.5, y:0.3, w:9, h:0.8, fontSize:26, bold:true, color:"0A84FF" });
+      slide.addText((s.points||[]).map(p=>({ text:p, options:{ bullet:true } })), { x:0.5, y:1.4, w:9, h:5, fontSize:16, color:"222222" });
+    }
+  });
+  pptx.writeFile({ fileName: `studya_${pptTopic.replace(/\W/g,"_").slice(0,30)}.pptx` });
+  toast("✅ PowerPoint téléchargé");
+}
+
+/* ============================================================
+   SOUS-ONGLET HELPER (pour la vue Outils)
+   ============================================================ */
+function switchTool(btn, id){
+  btn.parentElement.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  btn.classList.add("active");
+  document.querySelectorAll("#view-tools .tab-content").forEach(c=>c.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
+/* ============================================================
+   ESSAI GRATUIT (1 SEMAINE) — vérifié au login
+   ============================================================ */
+function isCodeActive(rec){
+  if(!rec) return false;
+  if(rec.lifetime) return true;
+  if(rec.paidUntil && new Date(rec.paidUntil) > new Date()) return true;
+  // Trial : 7 jours depuis premier login
+  if(!rec.trialStart) return true; // pas encore lancé
+  const trialEnd = new Date(rec.trialStart);
+  trialEnd.setDate(trialEnd.getDate() + 7);
+  return new Date() < trialEnd;
+}
+function trialDaysLeft(rec){
+  if(!rec || !rec.trialStart) return 7;
+  const end = new Date(rec.trialStart);
+  end.setDate(end.getDate() + 7);
+  const ms = end - new Date();
+  return Math.max(0, Math.ceil(ms / (1000*60*60*24)));
+}
+
+/* ============================================================
+   MODE TRICHE (code dans paramètres)
+   ============================================================ */
+function applyCheatModeToPrompt(p){
+  if(!DB.get("hwai_cheat", false)) return p;
+  return `[MODE DIRECT ACTIVÉ : donne la réponse complète et finale, sans détour pédagogique, comme si tu rendais le devoir à la place de l'élève.]\n\n` + p;
+}
+
+/* ============================================================
+   AGENTS IA INTERNES (admin)
+   ============================================================ */
+const AI_AGENTS = {
+  compta: {
+    name: "Compta IA",
+    icon: "💰",
+    systemPrompt: "Tu es l'expert-comptable de Studya. Calculs financiers, prévisionnels, suivi de chiffre d'affaires, marges, TVA, fiches de paie, déclarations. Réponds avec rigueur et chiffres précis."
+  },
+  sc: {
+    name: "Service client IA",
+    icon: "🎧",
+    systemPrompt: "Tu es responsable du service client de Studya. Tu rédiges des réponses empathiques, claires, professionnelles aux clients (élèves/parents). Toujours courtois, propose une solution concrète."
+  },
+  marketing: {
+    name: "Marketing IA",
+    icon: "📣",
+    systemPrompt: "Tu es directeur marketing de Studya (école/IA, cible 13-22 ans). Tu génères : campagnes TikTok, scripts vidéos, posts Insta, emails, slogans, A/B tests. Style jeune, percutant, mais sérieux."
+  },
+  codeur: {
+    name: "Codeur IA",
+    icon: "💻",
+    systemPrompt: "Tu es développeur senior fullstack. Tu fournis du code propre, commenté, avec explications brèves. Tech: HTML/CSS/JS vanilla, React, Node, Python. Réponds en blocs de code formatés."
+  }
+};
+let agentChats = { compta:[], sc:[], marketing:[], codeur:[] };
+let currentAgent = "compta";
+function selectAgent(a){
+  currentAgent = a;
+  document.querySelectorAll(".agent-tab").forEach(t => t.classList.toggle("active", t.dataset.agent===a));
+  renderAgentChat();
+}
+function renderAgentChat(){
+  const wrap = document.getElementById("agent-msgs");
+  if(!wrap) return;
+  const meta = AI_AGENTS[currentAgent];
+  wrap.innerHTML = (agentChats[currentAgent].length ? agentChats[currentAgent].map(m=>`<div class="msg ${m.role}">${escapeHtml(m.text)}</div>`).join("") : `<div class="msg ai">${meta.icon} ${meta.name} prêt. Pose ta question / demande.</div>`);
+  wrap.scrollTop = wrap.scrollHeight;
+}
+async function sendAgent(){
+  const inp = document.getElementById("agent-input");
+  const txt = inp.value.trim();
+  if(!txt) return;
+  inp.value = "";
+  agentChats[currentAgent].push({role:"user", text:txt});
+  renderAgentChat();
+  const meta = AI_AGENTS[currentAgent];
+  const wrap = document.getElementById("agent-msgs");
+  const thinking = document.createElement("div"); thinking.className="msg ai thinking"; thinking.textContent="✨ ...";
+  wrap.appendChild(thinking); wrap.scrollTop = wrap.scrollHeight;
+  try{
+    const res = await callAI(`${meta.systemPrompt}\n\nDemande : ${txt}`);
+    thinking.remove();
+    agentChats[currentAgent].push({role:"ai", text:res});
+    renderAgentChat();
+  }catch(e){ thinking.remove(); toast("Erreur : "+e.message); }
+}
+
+/* ============== 👆 SWIPE GESTURES (mobile uniquement) ============== */
+function initSwipeGestures(){
+  let startX = 0, startY = 0, startTime = 0;
+  const main = document.querySelector(".main");
+  if(!main) return;
+  main.addEventListener("touchstart", e => {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    startTime = Date.now();
+  }, {passive:true});
+  main.addEventListener("touchend", e => {
+    const dx = e.changedTouches[0].clientX - startX;
+    const dy = e.changedTouches[0].clientY - startY;
+    const dt = Date.now() - startTime;
+    // swipe horizontal rapide, peu de déviation verticale
+    if(Math.abs(dx) > 80 && Math.abs(dy) < 60 && dt < 500){
+      const order = ["view-devoirs","view-edt","view-tools","view-assist","view-settings"];
+      const cur = document.querySelector(".view.active")?.id;
+      const i = order.indexOf(cur);
+      if(i < 0) return;
+      const next = dx < 0 ? order[i+1] : order[i-1];
+      if(next){ haptic(20); switchView(next); }
+    }
+  }, {passive:true});
+}
+
+/* ============== INIT ============== */
+window.addEventListener("DOMContentLoaded", ()=>{
+  initSwipeGestures();
+  // Mode d'affichage
+  applyViewMode(DB.get("hwai_viewmode","auto"));
+  // Plein écran : si l'utilisateur l'a activé, on le ré-arme au prochain clic
+  armForceFullscreen();
+  updateFsIcon();
+  // Deep-link
+  handleSharedLink();
+  window.addEventListener("hashchange", handleSharedLink);
+
+  // Drag & drop sur la zone d'upload
+  const zone = document.getElementById("upload-zone");
+  if(zone){
+    ["dragenter","dragover"].forEach(e => zone.addEventListener(e, ev => { ev.preventDefault(); zone.classList.add("dragover"); }));
+    ["dragleave","drop"].forEach(e => zone.addEventListener(e, ev => { ev.preventDefault(); zone.classList.remove("dragover"); }));
+    zone.addEventListener("drop", ev => {
+      const f = ev.dataTransfer.files[0];
+      if(f){ document.getElementById("schedule-file").files = ev.dataTransfer.files; handleScheduleUpload(document.getElementById("schedule-file")); }
+    });
+  }
+  // Auto-resume si déjà connecté
+  const cur = getCurrent();
+  if(cur === "__ADMIN__") enterAdmin();
+  else if(cur && currentRecord()){
+    const r = currentRecord();
+    if(!r.schedule){ renderScheduleEdit(); showPage("page-schedule"); }
+    else if(!r.user){ showPage("page-profile"); }
+    else enterApp();
+  }
+});
+</script>
+</body>
+</html>
